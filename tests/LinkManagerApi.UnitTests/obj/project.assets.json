@@ -5612,11 +5612,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\project\\LinkManager\\tests\\LinkManagerApi.Tests\\LinkManagerApi.Tests.csproj",
-      "projectName": "LinkManagerApi.Tests",
-      "projectPath": "D:\\project\\LinkManager\\tests\\LinkManagerApi.Tests\\LinkManagerApi.Tests.csproj",
+      "projectUniqueName": "D:\\project\\LinkManager\\tests\\LinkManagerApi.UnitTests\\LinkManagerApi.UnitTests.csproj",
+      "projectName": "LinkManagerApi.UnitTests",
+      "projectPath": "D:\\project\\LinkManager\\tests\\LinkManagerApi.UnitTests\\LinkManagerApi.UnitTests.csproj",
       "packagesPath": "C:\\Users\\Mahour\\.nuget\\packages\\",
-      "outputPath": "D:\\project\\LinkManager\\tests\\LinkManagerApi.Tests\\obj\\",
+      "outputPath": "D:\\project\\LinkManager\\tests\\LinkManagerApi.UnitTests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

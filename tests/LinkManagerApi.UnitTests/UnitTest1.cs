@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace LinkManagerApi.Tests
+namespace LinkManagerApi.UnitTests
 {
     public class UnitTest1
     {
