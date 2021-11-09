@@ -24,14 +24,14 @@ namespace LinkManagerApi.Controllers.V1
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(_linkService.GetAll());
+            return Ok(await _linkService.GetAll());
         }
 
         [Route(ApiRoutes.Links.Get, Name ="Get")]
         [HttpGet]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var link=_linkService.GetById(id);
+            var link=await _linkService.GetById(id);
             if (link == null ) return NotFound();
 
             var response= new LinkResponse {
@@ -47,7 +47,7 @@ namespace LinkManagerApi.Controllers.V1
         public async Task<IActionResult> Create([FromBody] CreateLinkRequest request )
         {
             var link= new Link{ Name = request.Name};
-            _linkService.Create(link);
+           await  _linkService.Create(link);
 
             var response= new LinkResponse { Id= link.Id, Name=link.Name};
             return CreatedAtRoute(nameof(Get),new{id=response.Id}, response);
@@ -55,14 +55,14 @@ namespace LinkManagerApi.Controllers.V1
 
         [Route(ApiRoutes.Links.Update)]
         [HttpPut]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateLinkRequest updateLinkRequest)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateLinkRequest updateLinkRequest)
         {
             var link= new Link{
                 Id= id,
                 Name= updateLinkRequest.Name
             };
 
-            var update= _linkService.Update(link);
+            var update=await _linkService.Update(link);
             if(update)
                 return Ok(link);
 
@@ -72,9 +72,9 @@ namespace LinkManagerApi.Controllers.V1
 
         [Route(ApiRoutes.Links.Delete)]
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var delete= _linkService.Delete(id);
+            var delete= await _linkService.Delete(id);
             if (delete)
                 return NoContent();
             

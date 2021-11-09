@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LinkManagerApi.SetupServices
 {
-    public static class InstallerExtentions
+    public static class InstallerExtensions
     {
         public static void InstallServicesFromAssembly(this IServiceCollection services, IConfiguration configuration)
         {

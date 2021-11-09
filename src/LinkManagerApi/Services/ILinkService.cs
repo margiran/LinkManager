@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LinkManagerApi.Domain;
@@ -6,14 +7,14 @@ namespace LinkManagerApi.Services
 {
     public interface ILinkService
     {
-        List<Link> GetAll();
+       Task< List<Link>> GetAll();
 
-        Link GetById(int id);
+        Task<Link> GetById(Guid Id);
 
-        void Create(Link link);
+        Task Create(Link link);
 
-        bool Update(Link link);
-        bool Delete(int id);
+        Task<bool> Update(Link link);
+        Task<bool> Delete(Guid Id);
 
     }
 }
