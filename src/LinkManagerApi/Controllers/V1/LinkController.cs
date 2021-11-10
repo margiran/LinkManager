@@ -1,15 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinkManagerApi.Commands;
 using LinkManagerApi.Contracts.V1;
-using LinkManagerApi.Contracts.V1.Requests;
-using LinkManagerApi.Contracts.V1.Responses;
-using LinkManagerApi.Domain;
 using LinkManagerApi.Queries;
-using LinkManagerApi.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,11 +20,10 @@ namespace LinkManagerApi.Controllers.V1
 
         [Route(ApiRoutes.Links.GetAll)]
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string updateAt )
+        public async Task<IActionResult> GetAll([FromQuery( Name = "updateAfter")] string updateAfter )
         {
-            var query= new GetAllLinksQuery(updateAt);
+            var query= new GetAllLinksQuery(updateAfter);
             var result= await _mediator.Send(query);
-            Console.WriteLine(DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
             return Ok(result);
         }
 
@@ -46,18 +38,6 @@ namespace LinkManagerApi.Controllers.V1
                 return NotFound();
             return Ok(result);
         }
-
-        // [Route(ApiRoutes.Links.GetByUpdateAfter)]
-        // [HttpGet]
-        // public async Task<IActionResult> GetUpdatedAfter([FromQuery] DateTimeOffset updateAt)
-        // {
-        //     var UpdateAt = DateTimeOffset.UtcNow;
-        //     if (!DateTimeOffset.TryParse(updateAt.ToString(),out UpdateAt))
-        //         return BadRequest(updateAt);
-        //     var query= new GetLinksUpdatedAfterQuery(UpdateAt);
-        //     var result= await _mediator.Send(query);
-        //     return Ok(result);
-        // }
 
         [Route(ApiRoutes.Links.Create)]
         [HttpPost]

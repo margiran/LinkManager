@@ -35,23 +35,15 @@ namespace LinkManagerApi.Services
 
         public async Task<IEnumerable<Link>> GetAll(string updateAt)
         {
-            IQueryable<Link> links = _dbContext.Links;
-            try
+            var links = (from Links in _dbContext.Links
+                         select Links);
+            if (!string.IsNullOrEmpty(updateAt))
             {
-                if (!string.IsNullOrEmpty(updateAt))
-                {
-                    long dataTimeOffsetSeconds;
-                    Int64.TryParse(updateAt, out dataTimeOffsetSeconds);
-                    if (dataTimeOffsetSeconds > 0)
-                    {
-                        var UpdateAt = DateTimeOffset.FromUnixTimeSeconds(dataTimeOffsetSeconds);
-                        Console.WriteLine(UpdateAt.ToString());
-                        links.Where(l => l.UpdateAt >= UpdateAt);
-                    }
-                }
+                DateTimeOffset UpdateAt;
+                if (DateTimeOffset.TryParse(updateAt, out UpdateAt))
+                    return await links.Where(l => l.UpdateAt >= UpdateAt).ToListAsync();
             }
-            catch { }
-            return  links.ToList();
+            return await links.ToListAsync();
         }
 
         public async Task<Link> GetById(Guid id)
