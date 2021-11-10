@@ -33,14 +33,40 @@ namespace LinkManagerApi.Services
             return await Update(link);
         }
 
-        public async Task<IEnumerable<Link>> GetAll()
+        public async Task<IEnumerable<Link>> GetAll(string updateAt)
         {
-            return  await _dbContext.Links.ToListAsync();
+            IQueryable<Link> links = _dbContext.Links;
+            try
+            {
+                if (!string.IsNullOrEmpty(updateAt))
+                {
+                    long dataTimeOffsetSeconds;
+                    Int64.TryParse(updateAt, out dataTimeOffsetSeconds);
+                    if (dataTimeOffsetSeconds > 0)
+                    {
+                        var UpdateAt = DateTimeOffset.FromUnixTimeSeconds(dataTimeOffsetSeconds);
+                        Console.WriteLine(UpdateAt.ToString());
+                        links.Where(l => l.UpdateAt >= UpdateAt);
+                    }
+                }
+            }
+            catch { }
+            return  links.ToList();
         }
 
         public async Task<Link> GetById(Guid id)
         {
             return await _dbContext.Links.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Link>> GetUpdatedAfter(DateTimeOffset updateAt)
+        {
+            return await _dbContext.Links.Where(l => l.UpdateAt >= updateAt).ToListAsync();
+        }
+
+        public async Task<bool> LinkExist(Guid id)
+        {
+            return await _dbContext.Links.AnyAsync(l => l.Id == id);
         }
 
         public async Task<bool> SaveChanges()
@@ -50,10 +76,10 @@ namespace LinkManagerApi.Services
 
         public async Task<bool> Update(Link link)
         {
-            // var exist=await GetById(link.Id) != null;
-            // if(!exist)
-            //     return false;
-            link.UpDateAt=DateTimeOffset.UtcNow;
+            var exist = await LinkExist(link.Id);
+            if (!exist)
+                return false;
+            link.UpdateAt = DateTimeOffset.UtcNow;
             _dbContext.Links.Update(link);
             return true;
         }

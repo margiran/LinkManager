@@ -22,10 +22,10 @@ public class UpdateLinkCommandHandler : IRequestHandler<UpdateLinkCommand, LinkR
     public async Task<LinkResponse> Handle(UpdateLinkCommand request, CancellationToken cancellationToken)
     {
             var link= _mapper.Map<Link> (request);
-            await _linkService.Update(link);
-            var update= await _linkService.SaveChanges();
+            var update=await _linkService.Update(link);
             if (!update)
                 return null;
+            await _linkService.SaveChanges();
             return _mapper.Map<LinkResponse>(link);
     }
 }

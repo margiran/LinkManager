@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ public class GetAllLinksQueryHandler : IRequestHandler<GetAllLinksQuery, IEnumer
     }
     public async Task<IEnumerable<LinkResponse>> Handle(GetAllLinksQuery request, CancellationToken cancellationToken)
     {
-        var links = await _linkService.GetAll();
+        var links = await _linkService.GetAll(request.UpdateAt);
         return _mapper.Map<IEnumerable<LinkResponse>>(links);
     }
 }

@@ -24,7 +24,7 @@ namespace LinkManagerApi.Contracts.V1.Responses
 
         public int VisitedCount { get; set; }
 
-        public DateTimeOffset UpDateAt { get; set; }
+        public DateTimeOffset UpdateAt { get; set; }
 
         public int Order { get; set; }
       

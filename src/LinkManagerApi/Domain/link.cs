@@ -6,6 +6,10 @@ namespace LinkManagerApi.Domain
 {
     public class Link
     {
+        public Link()
+        {
+            UpdateAt= DateTimeOffset.UtcNow;
+        }
         [Key]
         public Guid Id { get; set; }
 
@@ -39,7 +43,7 @@ namespace LinkManagerApi.Domain
 
         public int VisitedCount { get; set; }
 
-        public DateTimeOffset UpDateAt { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset UpdateAt { get;  set; } 
 
         [Required]
         public int Order { get; set; }

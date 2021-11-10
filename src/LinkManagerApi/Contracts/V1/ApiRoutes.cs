@@ -10,6 +10,7 @@ namespace LinkManagerApi.Contracts.V1
         {
             public const string GetAll = $"{BaseUrl}/Links";
             public const string Get = $"{BaseUrl}/Links/{{id}}";
+            public const string GetByUpdateAfter = $"{BaseUrl}/Links/{{updateAt}}";
             public const string Create = $"{BaseUrl}/Links";
             public const string Update = $"{BaseUrl}/Links/{{id}}";
             public const string Delete = $"{BaseUrl}/Links/{{id}}";

@@ -27,10 +27,11 @@ namespace LinkManagerApi.Controllers.V1
 
         [Route(ApiRoutes.Links.GetAll)]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string updateAt )
         {
-            var query= new GetAllLinksQuery();
+            var query= new GetAllLinksQuery(updateAt);
             var result= await _mediator.Send(query);
+            Console.WriteLine(DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
             return Ok(result);
         }
 
@@ -39,13 +40,24 @@ namespace LinkManagerApi.Controllers.V1
         public async Task<IActionResult> Get(Guid id)
         {
             var query=new  GetLinkByIdQuery(id);
-            var response= await _mediator.Send(query);
+            var result= await _mediator.Send(query);
 
-            if (response == null ) 
+            if (result == null ) 
                 return NotFound();
-            return Ok(response);
+            return Ok(result);
         }
 
+        // [Route(ApiRoutes.Links.GetByUpdateAfter)]
+        // [HttpGet]
+        // public async Task<IActionResult> GetUpdatedAfter([FromQuery] DateTimeOffset updateAt)
+        // {
+        //     var UpdateAt = DateTimeOffset.UtcNow;
+        //     if (!DateTimeOffset.TryParse(updateAt.ToString(),out UpdateAt))
+        //         return BadRequest(updateAt);
+        //     var query= new GetLinksUpdatedAfterQuery(UpdateAt);
+        //     var result= await _mediator.Send(query);
+        //     return Ok(result);
+        // }
 
         [Route(ApiRoutes.Links.Create)]
         [HttpPost]
