@@ -17,16 +17,19 @@ namespace LinkManagerApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env =env;
         }
 
         public IConfiguration Configuration { get; }
 
+        private readonly IWebHostEnvironment _env;
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.InstallServicesFromAssembly(Configuration);
+            services.InstallServicesFromAssembly(Configuration,_env);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

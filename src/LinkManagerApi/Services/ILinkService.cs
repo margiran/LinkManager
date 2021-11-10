@@ -7,14 +7,16 @@ namespace LinkManagerApi.Services
 {
     public interface ILinkService
     {
-       Task< List<Link>> GetAll();
+       Task< IEnumerable<Link>> GetAll();
 
-        Task<Link> GetById(Guid Id);
+        Task<Link> GetById(Guid id);
 
         Task Create(Link link);
 
         Task<bool> Update(Link link);
-        Task<bool> Delete(Guid Id);
+        Task<bool> Delete(Guid id);
+
+        Task<bool> SaveChanges();
 
     }
 }

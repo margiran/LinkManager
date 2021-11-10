@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using LinkManagerApi.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,10 @@ namespace LinkManagerApi.Data
 
         public DbSet<Link> Links { get; set; }
         
-        
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Link>()
+                .HasQueryFilter(l => !l.IsDelete);
+        }
     }
 }

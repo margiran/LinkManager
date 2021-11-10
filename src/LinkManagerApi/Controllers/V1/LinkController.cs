@@ -2,11 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using LinkManagerApi.Commands;
 using LinkManagerApi.Contracts.V1;
 using LinkManagerApi.Contracts.V1.Requests;
 using LinkManagerApi.Contracts.V1.Responses;
 using LinkManagerApi.Domain;
+using LinkManagerApi.Queries;
 using LinkManagerApi.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkManagerApi.Controllers.V1
@@ -14,72 +18,71 @@ namespace LinkManagerApi.Controllers.V1
     [ApiController]
     public class LinkController :ControllerBase
     {
-        private readonly ILinkService _linkService;
-        public LinkController(ILinkService linkService)
+        private readonly IMediator _mediator;
+
+        public LinkController( IMediator mediator )
         {
-           _linkService=linkService;
+           _mediator=mediator;
         }
 
         [Route(ApiRoutes.Links.GetAll)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _linkService.GetAll());
+            var query= new GetAllLinksQuery();
+            var result= await _mediator.Send(query);
+            return Ok(result);
         }
 
         [Route(ApiRoutes.Links.Get, Name ="Get")]
         [HttpGet]
         public async Task<IActionResult> Get(Guid id)
         {
-            var link=await _linkService.GetById(id);
-            if (link == null ) return NotFound();
+            var query=new  GetLinkByIdQuery(id);
+            var response= await _mediator.Send(query);
 
-            var response= new LinkResponse {
-                Id = link.Id,
-                Name= link.Name
-            };
+            if (response == null ) 
+                return NotFound();
             return Ok(response);
         }
 
 
         [Route(ApiRoutes.Links.Create)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateLinkRequest request )
+        public async Task<IActionResult> Create([FromBody] CreateLinkCommand command )
         {
-            var link= new Link{ Name = request.Name};
-           await  _linkService.Create(link);
-
-            var response= new LinkResponse { Id= link.Id, Name=link.Name};
+            if (command== null || !ModelState.IsValid )
+                return BadRequest(ModelState);
+            var response= await _mediator.Send(command);
             return CreatedAtRoute(nameof(Get),new{id=response.Id}, response);
         }
 
         [Route(ApiRoutes.Links.Update)]
         [HttpPut]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateLinkRequest updateLinkRequest)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateLinkCommand command)
         {
-            var link= new Link{
-                Id= id,
-                Name= updateLinkRequest.Name
-            };
+            if (command==null || !ModelState.IsValid )
+                return BadRequest(ModelState);
+            command.Id=id;
+            var result= await _mediator.Send(command);
 
-            var update=await _linkService.Update(link);
-            if(update)
-                return Ok(link);
+            if (result == null )
+                return NotFound();
 
-            return NotFound();
-
+            return Ok(result);
         }
 
         [Route(ApiRoutes.Links.Delete)]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var delete= await _linkService.Delete(id);
-            if (delete)
-                return NoContent();
-            
-            return NotFound();
+            var command= new DeleteLinkCommand(id);
+            var result = await _mediator.Send(command);
 
+            if (result)
+                return NoContent();
+
+            return NotFound();
         }
 
     }
