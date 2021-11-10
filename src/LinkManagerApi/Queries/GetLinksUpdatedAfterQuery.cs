@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using LinkManagerApi.Contracts.V1.Responses;
+using LinkManagerApi.Dtos;
 using MediatR;
 
 namespace LinkManagerApi.Queries;
 
-public class GetLinksUpdatedAfterQuery:IRequest<IEnumerable<LinkResponse>>
+public class GetLinksUpdatedAfterQuery:IRequest<IEnumerable<LinkResponseDto>>
 {
     public DateTimeOffset UpdateAt { get; }
     

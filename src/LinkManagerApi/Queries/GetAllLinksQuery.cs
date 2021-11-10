@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using LinkManagerApi.Contracts.V1.Responses;
+using LinkManagerApi.Dtos;
 using MediatR;
 
 namespace LinkManagerApi.Queries;
 
-public class GetAllLinksQuery: IRequest<IEnumerable< LinkResponse >>
+public class GetAllLinksQuery: IRequest<IEnumerable< LinkResponseDto >>
 {
     public string UpdateAt { get; }
     

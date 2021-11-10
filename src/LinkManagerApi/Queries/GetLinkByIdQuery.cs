@@ -1,10 +1,10 @@
 using System;
-using LinkManagerApi.Contracts.V1.Responses;
+using LinkManagerApi.Dtos;
 using MediatR;
 
 namespace LinkManagerApi.Queries;
 
-public class GetLinkByIdQuery : IRequest<LinkResponse>
+public class GetLinkByIdQuery : IRequest<LinkResponseDto>
 {
     public Guid Id { get; }
     

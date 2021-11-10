@@ -1,19 +1,18 @@
 using AutoMapper;
-using LinkManagerApi.Contracts.V1.Requests;
-using LinkManagerApi.Contracts.V1.Responses;
+using LinkManagerApi.Dtos;
 using LinkManagerApi.Domain;
+using LinkManagerApi.Commands;
 
-namespace LinkManagerApi.Profiles
+namespace LinkManagerApi.Profiles;
+
+public class LinkProfile : Profile
 {
-    public class LinkProfile:Profile
+    public LinkProfile()
     {
-        public LinkProfile()
-        {
-            // s -> t
-            CreateMap< Link, LinkResponse>();
-            CreateMap< CreateLinkRequest, Link>();
-            CreateMap< UpdateLinkRequest ,Link>();
-            
-        }
+        // s -> t
+        CreateMap<Link, LinkResponseDto>();
+        CreateMap<CreateLinkCommand, Link>();
+        CreateMap<UpdateLinkCommand, Link>();
+
     }
 }

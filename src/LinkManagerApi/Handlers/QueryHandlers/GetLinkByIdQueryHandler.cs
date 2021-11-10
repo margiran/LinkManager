@@ -2,13 +2,13 @@ namespace LinkManagerApi.Handlers.QueryHandlers;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinkManagerApi.Contracts.V1.Responses;
+using LinkManagerApi.Dtos;
 using LinkManagerApi.Queries;
 using LinkManagerApi.Services;
 using MediatR;
 
 
-public class GetLinkByIdQueryHandler : IRequestHandler<GetLinkByIdQuery, LinkResponse>
+public class GetLinkByIdQueryHandler : IRequestHandler<GetLinkByIdQuery, LinkResponseDto>
 {
     private readonly IMapper _mapper;
     private readonly ILinkService _linkService;
@@ -18,12 +18,12 @@ public class GetLinkByIdQueryHandler : IRequestHandler<GetLinkByIdQuery, LinkRes
         _mapper = mapper;
         _linkService = linkService;
     }
-    public async Task<LinkResponse> Handle(GetLinkByIdQuery request, CancellationToken cancellationToken)
+    public async Task<LinkResponseDto> Handle(GetLinkByIdQuery request, CancellationToken cancellationToken)
     {
         var link = await _linkService.GetById(request.Id);
         if (link == null)
             return null;
 
-        return _mapper.Map<LinkResponse>(link);
+        return _mapper.Map<LinkResponseDto>(link);
     }
 }
