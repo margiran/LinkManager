@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LinkManagerApi.Controllers;
 
 [ApiController]
+[ApiVersion("1.0")]
 public class LinkController : ControllerBase
 {
     private readonly IMediator _mediator;

@@ -35,8 +35,6 @@ public class UpdateLinkCommand : IRequest<LinkResponseDto>
     [MaxLength(50)]
     public string DefaultPassword { get; set; }
 
-    public int VisitedCount { get; set; }
-
     [Required]
     public int Order { get; set; }
 

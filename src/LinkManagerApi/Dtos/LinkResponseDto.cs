@@ -22,8 +22,6 @@ public class LinkResponseDto
 
     public string DefaultPassword { get; set; }
 
-    public int VisitedCount { get; set; }
-
     public DateTimeOffset UpdateAt { get; set; }
 
     public int Order { get; set; }

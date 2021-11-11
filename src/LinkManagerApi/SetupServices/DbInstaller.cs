@@ -21,7 +21,7 @@ namespace LinkManagerApi.SetupServices
             else
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
+                options.UseSqlServer(Configuration.GetConnectionString("default")));
             }
             services.AddScoped<ILinkService, SqlServerLinkService>();
         }

@@ -41,8 +41,6 @@ public class Link
 
     public bool IsDelete { get; set; }
 
-    public int VisitedCount { get; set; }
-
     public DateTimeOffset UpdateAt { get; set; }
 
     [Required]
