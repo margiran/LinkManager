@@ -12,7 +12,6 @@ public class ApplicationDbContext : DbContext
 
     }
 
-
     public DbSet<Link> Links { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)

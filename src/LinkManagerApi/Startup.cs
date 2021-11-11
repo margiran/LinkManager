@@ -1,3 +1,4 @@
+using LinkManagerApi.Data;
 using LinkManagerApi.SetupServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,7 +15,12 @@ public class Startup
         _env = env;
     }
 
-    public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration) 
+        {
+            this.Configuration = configuration;
+               
+        }
+            public IConfiguration Configuration { get; }
 
     private readonly IWebHostEnvironment _env;
 
@@ -38,6 +44,7 @@ public class Startup
 
         app.UseAuthorization();
 
+        PrepareDatabase.PrepareDB(app,env.IsDevelopment());
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

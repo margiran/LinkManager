@@ -1,5 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LinkManagerApi.Data;
@@ -19,7 +20,7 @@ public static class PrepareDatabase
         {
             try{
                 Console.WriteLine("Migration");
-                // context.Database.Migrate();
+                context.Database.Migrate();
             }
             catch (Exception e)
             {

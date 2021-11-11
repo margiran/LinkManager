@@ -1,3 +1,4 @@
+using System;
 using LinkManagerApi.Data;
 using LinkManagerApi.Services;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,8 @@ namespace LinkManagerApi.SetupServices
             }
             else
             {
+                Console.WriteLine("useing sql server DB");
+
                 services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("default")));
             }
