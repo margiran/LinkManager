@@ -16,8 +16,8 @@ public static class PrepareDatabase
     }
     private static void SeedData(ApplicationDbContext context, bool isDevelopment)
     {
-        if (!isDevelopment)
-        {
+        // if (!isDevelopment)
+        // {
             try{
                 Console.WriteLine("Migration");
                 context.Database.Migrate();
@@ -26,6 +26,6 @@ public static class PrepareDatabase
             {
                 Console.WriteLine($"Error in Migration= {e.Message}");
             }
-        }
+        // }
     }
 }

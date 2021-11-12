@@ -15,12 +15,12 @@ public class Startup
         _env = env;
     }
 
-        public Startup(IConfiguration configuration) 
-        {
-            this.Configuration = configuration;
-               
-        }
-            public IConfiguration Configuration { get; }
+    public Startup(IConfiguration configuration)
+    {
+        this.Configuration = configuration;
+
+    }
+    public IConfiguration Configuration { get; }
 
     private readonly IWebHostEnvironment _env;
 
@@ -34,17 +34,17 @@ public class Startup
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinkManagerApi v1"));
         }
+        app.UseSwagger();
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinkManagerApi v1"));
 
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
 
         app.UseRouting();
 
         app.UseAuthorization();
 
-        PrepareDatabase.PrepareDB(app,env.IsDevelopment());
+        PrepareDatabase.PrepareDB(app, env.IsDevelopment());
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

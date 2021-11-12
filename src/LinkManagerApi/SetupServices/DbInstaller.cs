@@ -21,7 +21,8 @@ namespace LinkManagerApi.SetupServices
             }
             else
             {
-                Console.WriteLine("useing sql server DB");
+                var con=Configuration.GetConnectionString("default");
+                Console.WriteLine($"useing sql server DB {con} , {env.IsProduction()}`");
 
                 services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("default")));
