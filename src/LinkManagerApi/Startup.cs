@@ -37,7 +37,6 @@ public class Startup
         }
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinkManagerApi v1"));
-
         // app.UseHttpsRedirection();
 
         app.UseRouting();

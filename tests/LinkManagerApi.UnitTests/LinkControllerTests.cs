@@ -4,14 +4,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using LinkManagerApi.Controllers;
-using LinkManagerApi.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 using LinkManagerApi.Dtos;
 using System.Linq;
-using AutoMapper;
 using LinkManagerApi.Queries;
 using LinkManagerApi.Commands;
 
