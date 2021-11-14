@@ -1,0 +1,37 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - script: dotnet test tests/LinkManagerApi.UnitTests/LinkManagerApi.UnitTests.csproj --logger trx  
+      displayName: Run unit tests  
+    - task: PublishTestResults@2  
+      condition: succeededOrFailed()  
+      inputs:  
+        testRunner: VSTest  
+        testResultsFiles: '**/*.trx'  
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'margiran Docker Hub'
+        repository: 'margiran/linkmanagerapi'
+        command: 'buildAndPush'
+        Dockerfile: 'src/LinkManagerApi/Dockerfile'
+        tags: |
+          $(tag)

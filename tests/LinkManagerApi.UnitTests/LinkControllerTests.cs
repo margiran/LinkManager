@@ -79,15 +79,15 @@ public class LinkControllerTests
             Title = Guid.NewGuid().ToString(),
             ShortDescription = Guid.NewGuid().ToString()
         };
-    //      var _mockMapper = new Mock<IMapper>();
-    // //Fake the mapper
-    // _mockMapper
-    //     .Setup(_ => _.Map<LinkResponseDto>(It.IsAny<CreateLinkCommand>()))
-    //     .Returns();
-
-        // var expected= 
         mediatorStub.Setup(m =>  m.Send(It.IsAny<CreateLinkCommand>(),CancellationToken.None))
-        .ReturnsAsync((LinkResponseDto) null );
+        .ReturnsAsync(new LinkResponseDto{ 
+            Id=Guid.NewGuid(),
+            FileName= itemToCreate.FileName,
+            Argument= itemToCreate.Argument,
+            Order= itemToCreate.Order,
+            Title=itemToCreate.Title,
+            ShortDescription=itemToCreate.ShortDescription
+        });
 
         var sut = new LinkController(mediatorStub.Object);
         var result = await sut.Create(itemToCreate);
@@ -97,10 +97,13 @@ public class LinkControllerTests
                 options => options.ComparingByMembers<LinkResponseDto>().ExcludingMissingMembers()
             );
             createdItem.Id.Should().NotBeEmpty();
-            // createdItem.CreatedDate.Should().BeCloseTo(DateTimeOffset.UtcNow, 1000);
-
-        // Assert.IsType<CreatedAtRouteResult>(result);
-
+    }
+    [Fact]
+    public async Task CreateLinkAsync_WithANullCommand_ReturnBadRequest()
+    {
+        var sut = new LinkController(mediatorStub.Object);
+        var result = await sut.Create((CreateLinkCommand) null);
+        Assert.IsType<BadRequestObjectResult>(result);
     }
 
     private LinkResponseDto GenerateLink()

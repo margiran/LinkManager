@@ -44,6 +44,7 @@ public class LinkController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateLinkCommand command)
     {
+        Console.WriteLine("create link");
         if (command == null || !ModelState.IsValid)
             return BadRequest(ModelState);
         var response = await _mediator.Send(command);
