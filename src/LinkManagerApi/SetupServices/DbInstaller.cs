@@ -1,6 +1,5 @@
 using System;
 using LinkManagerApi.Data;
-// using LinkManagerApi.HealthCheck;
 using LinkManagerApi.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +27,7 @@ public class DbInstaller : IServiceInstallers
         }
         else
         {
-            Console.WriteLine($"useing sql server DB ");
+            Console.WriteLine($"using sql server DB ");
 
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("default")));
