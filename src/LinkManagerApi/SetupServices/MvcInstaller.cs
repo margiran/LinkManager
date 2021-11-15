@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Versioning;
-using LinkManagerApi.HealthCheck;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace LinkManagerApi.SetupServices;
