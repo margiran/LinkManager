@@ -18,14 +18,14 @@ namespace LinkManagerApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureLogging((context, logging) =>
-                {
-                    if (context.HostingEnvironment.IsProduction())
-                    {
-                        logging.ClearProviders();
-                        logging.AddJsonConsole();
-                    }
-                })
+                // .ConfigureLogging((context, logging) =>
+                // {
+                //     if (context.HostingEnvironment.IsProduction())
+                //     {
+                //         logging.ClearProviders();
+                //         logging.AddJsonConsole();
+                //     }
+                // })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
