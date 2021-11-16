@@ -96,10 +96,10 @@ spec:
               secretKeyRef:
                 name: mssql
                 key: SA_PASSWORD
-          livenessProbe:
-            httpGet:
-              path: /health/live
-              port: 80
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health/live
+          #     port: 80
           # readinessProbe:
           #   httpGet:
           #     path: /health/ready

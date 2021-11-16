@@ -30,7 +30,7 @@ public class DbInstaller : IServiceInstallers
             Console.WriteLine($"using sql server DB ");
 
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("default")));
+            options.UseSqlServer(connectionString));
 
         }
         services.AddScoped<ILinkService, SqlServerLinkService>();

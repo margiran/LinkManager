@@ -52,10 +52,10 @@ public class Startup
         {
             endpoints.MapControllers();
 
-            // 
+            
             endpoints.MapHealthChecks("/health/ready", new HealthCheckOptions
             {
-                // Predicate = (check) => check.Tags.Contains("ready"),
+                Predicate = (check) => check.Tags.Contains("ready"),
                 ResponseWriter = async (context, report) =>
                 {
                     var result = JsonSerializer.Serialize(
