@@ -26,7 +26,7 @@ public class DbInstaller : IServiceInstallers
         }
         else
         {
-            Console.WriteLine($"using sql server DB {dbSetting.ConnectionString} ");
+            Console.WriteLine($"using sql server DB ");
 
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(dbSetting.ConnectionString));
