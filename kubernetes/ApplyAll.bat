@@ -1,2 +1,2 @@
-kubectl create secret generic mssql --from-literal=SA_PASSWORD="p@@sw0rd"
+kubectl create secret generic db-secrets --from-literal=sa-password='p@@sw0rd'
 kubectl apply -f AllInOne.yaml

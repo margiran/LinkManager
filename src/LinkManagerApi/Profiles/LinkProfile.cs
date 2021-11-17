@@ -9,7 +9,6 @@ public class LinkProfile : Profile
 {
     public LinkProfile()
     {
-        // s -> t
         CreateMap<Link, LinkResponseDto>();
         CreateMap<CreateLinkCommand, Link>();
         CreateMap<UpdateLinkCommand, Link>();

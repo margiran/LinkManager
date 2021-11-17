@@ -27,13 +27,13 @@ resource "kubernetes_deployment" "linkmanager-deployment" {
       }
     }   
 }
-resource "kubernetes_service" "linkmanagerapi-clusterip-srvice" {
+resource "kubernetes_service" "linkmanagerapi-clusterip-service" {
     metadata {
-      name = "linkmanagerapi-clusterip-srvice"
+      name = "linkmanagerapi-clusterip-service"
     }
     spec {
-      type = ClusterIP
-      selector {
+      type = "ClusterIP"
+      selector = {
           app = "linkmanagerservice"
       }
       port {
@@ -44,13 +44,13 @@ resource "kubernetes_service" "linkmanagerapi-clusterip-srvice" {
       }
     }
 }
-resource "kubernetes_service" "linkmanagerapinodeportservice-srv" {
+resource "kubernetes_service" "linkmanagerapi-loadbalancer-service" {
     metadata {
-      name = "linkmanagerapinodeportservice-srv"
+      name = "linkmanagerapi-loadbalancer"
     }
     spec {
-      type = NodePort
-      selector {
+      type = "LoadBalancer"
+      selector = {
           app = "linkmanagerservice"
       }
       port {
@@ -61,3 +61,17 @@ resource "kubernetes_service" "linkmanagerapinodeportservice-srv" {
       }
     }
 }
+resource "kubernetes_persistent_volume_claim" "mssql-claim" {
+  metadata {
+    name = "mssql-claim"
+  }
+  spec {
+    access_modes = ["ReadWriteMany"]
+    resources {
+      requests = {
+        storage = "200Mi"
+      }
+    }
+  }
+}
+

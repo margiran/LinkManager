@@ -36,8 +36,8 @@ spec:
           - name: SA_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mssql
-                key: SA_PASSWORD
+                name: db-secrets
+                key: sa-password
           volumeMounts:
             - mountPath: /var/opt/mssql/data
               name: mssqldb
@@ -91,24 +91,24 @@ spec:
         - name: linkmanagerservice
           image: margiran/linkmanagerapi:latest
           env:
-          - name: SA_PASSWORD
+          - name: DbSettings__Password
             valueFrom:
               secretKeyRef:
-                name: mssql
-                key: SA_PASSWORD
-          # livenessProbe:
-          #   httpGet:
-          #     path: /health/live
-          #     port: 80
-          # readinessProbe:
-          #   httpGet:
-          #     path: /health/ready
-          #     port: 80
+                name: db-secrets
+                key: sa-password
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 80
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: linkmanagerapi-clusterip-srvice
+  name: linkmanagerapi-clusterip-service
 spec:
   type: ClusterIP
   selector:
