@@ -117,13 +117,14 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
     <Window.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
             <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
         </EventTrigger>
+            
     </Window.Triggers>
     <Grid Background="White" >
         <Grid.ColumnDefinitions>
@@ -132,7 +133,7 @@
             <ColumnDefinition Width="75*"/>
         </Grid.ColumnDefinitions>
         <Grid Width="250"   HorizontalAlignment="Left" Margin="-250,0,0,0">
-            <StackPanel FlowDirection="RightToLeft" x:Name="GridMenu"  HorizontalAlignment="Center"  Orientation="Vertical" RenderTransformOrigin="0.5,0.5" >
+            <StackPanel x:Name="GridMenu"  HorizontalAlignment="Center"  Orientation="Vertical" RenderTransformOrigin="0.5,0.5" >
                 <StackPanel.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -157,15 +158,15 @@
 
                     <Image Grid.Row="0" Grid.ColumnSpan="2" Height="150" Width="220" VerticalAlignment="Top" HorizontalAlignment="Center"  Source="{StaticResource ResourceKey=logo}"   />
 
-                    <TextBlock x:Name="TxtTitle" Grid.Row="1" Style="{StaticResource DetailTitle}" Grid.ColumnSpan="2"  ></TextBlock>
+                    <TextBlock x:Name="TxtTitle" Grid.Row="1" Style="{StaticResource DetailTitle}" Grid.ColumnSpan="2" Text="{Binding SelectedLink.Title}"  ></TextBlock>
 
-                    <TextBlock x:Name="TxtShortDescription" Grid.Row="2" Style="{StaticResource DetailText}" Grid.ColumnSpan="2"  ></TextBlock>
-                    <TextBlock Grid.Row="3" Grid.Column="0"   Style="{StaticResource DetailTextBold}"  Text="User Name:"  ></TextBlock>
-                    <!--<TextBlock Grid.Row="3" Grid.Column="1" x:Name="TxtUser"  Style="{StaticResource DetailText}"  Text="branch" ></TextBlock>-->
+                    <TextBlock x:Name="TxtShortDescription" Grid.Row="2" Style="{StaticResource DetailText}" Grid.ColumnSpan="2"  Text="{Binding SelectedLink.ShortDescription}" ></TextBlock>
+                    <TextBlock Grid.Row="3" Grid.Column="0"   Style="{StaticResource DetailTextBold}"  Text="Username:"  ></TextBlock>
+                    <TextBlock Grid.Row="3" Grid.Column="1" x:Name="TxtUser"  Style="{StaticResource DetailText}"   Text="{Binding SelectedLink.UserName}" ></TextBlock>
                     <TextBlock  Grid.Row="4" Grid.Column="0" Style="{StaticResource DetailTextBold}" Text="Password:"  ></TextBlock>
-                    <TextBlock x:Name="TxtPassword" Grid.Row="4" Style="{StaticResource DetailText}" Grid.Column="1" TextAlignment="Left"   Text="" ></TextBlock>
+                    <TextBlock x:Name="TxtPassword" Grid.Row="4" Style="{StaticResource DetailText}" Grid.Column="1" TextAlignment="Left"  Text="{Binding SelectedLink.Title}" ></TextBlock>
                     <ScrollViewer  Grid.Row="5" Grid.ColumnSpan="2" >
-                        <TextBlock x:Name="TxtDescription"  Style="{StaticResource DetailText}"  ></TextBlock>
+                        <TextBlock x:Name="TxtDescription"  Style="{StaticResource DetailText}"  Text="{Binding SelectedLink.Description}" ></TextBlock>
                     </ScrollViewer>
 
 
@@ -222,16 +223,16 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="ButtonOpenMenu" Grid.Row="0" Grid.Column="2" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" HorizontalAlignment="Right"  >
+                                <Button Visibility="{Binding OpenMenuVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding OpenMenuCommand}" Grid.Row="0" Grid.Column="2" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" HorizontalAlignment="Right"  >
                                     <materialDesign:PackIcon Kind="Menu"   />
                                     <Button.Triggers>
-                                        <EventTrigger RoutedEvent="Button.Click">
+                                        <EventTrigger  RoutedEvent="Button.Click">
                                             <BeginStoryboard Storyboard="{StaticResource OpenMenu}">
                                             </BeginStoryboard>
                                         </EventTrigger>
                                     </Button.Triggers>
                                 </Button>
-                                <Button x:Name="ButtonCloseMenu" Grid.Row="0" Grid.Column="2" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" HorizontalAlignment="Right" Visibility="Collapsed" >
+                                <Button Visibility="{Binding CloseMenuVisibility,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding CloseMenuCommand}" Grid.Row="0" Grid.Column="2" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" HorizontalAlignment="Right" >
                                     <materialDesign:PackIcon Kind="Menu"   />
                                     <Button.Triggers>
 
@@ -260,7 +261,7 @@
                                                             <ColumnDefinition Width="205" />
                                                             <ColumnDefinition Width="40" />
                                                         </Grid.ColumnDefinitions>
-                                                        <Button x:Name="OpenBrowser" Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
 AncestorType={x:Type Window}}, Path=DataContext.OpenLinkCommand}" CommandParameter="{Binding Id}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Left"   HorizontalAlignment="Stretch" Tag="{Binding Id}" BorderBrush="#FF1030B0">
                                                             <Button.Background>
                                                                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -278,7 +279,8 @@ AncestorType={x:Type Window}}, Path=DataContext.OpenLinkCommand}" CommandParamet
                                                                 </TextBlock>
                                                             </Grid>
                                                         </Button>
-                                                        <Button x:Name="ButtonDetail"   Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"   HorizontalAlignment="Center" Tag="{Binding Id}"  BorderBrush="#FF1030B0" >
+                                                        <Button x:Name="ButtonDetail"   Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+AncestorType={x:Type Window}}, Path=DataContext.SelectALinkCommand}" CommandParameter="{Binding Id}" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"   HorizontalAlignment="Center" Tag="{Binding Id}"  BorderBrush="#FF1030B0" >
                                                             <Button.Background>
                                                                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                                                     <GradientStop Color="#FFF3F3F3" Offset="1"/>

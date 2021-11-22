@@ -1,11 +1,13 @@
 using BespokeFusion;
 using LinkManagerClientWPF.Common;
+using LinkManagerClientWPF.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media.Animation;
 
 namespace LinkManagerClientWPF.ViewModels;
 
@@ -22,11 +24,14 @@ public class MainWindowViewModel : BaseViewModel
     #region commands
 
     public Command<Guid> OpenLinkCommand { get; set; }
+    public Command<Guid> SelectALinkCommand { get; set; }
     public Command UpdateLocalDatabaseCommand { get; set; }
     public Command ExitCommand { get; set; }
     public Command AboutCommand { get; set; }
 
     public Command ChangeSettingVisibilityCommand { get; set; }
+    public Command OpenMenuCommand { get; set; }
+    public Command CloseMenuCommand { get; set; }
 
 
     #endregion
@@ -37,16 +42,47 @@ public class MainWindowViewModel : BaseViewModel
     {
         // _repository = new LinkRepository();
         OpenLinkCommand = new Command<Guid>(OpenLink);
+        SelectALinkCommand = new Command<Guid>(ShowLinkDetails);
         ExitCommand = new Command(() => Application.Current.Shutdown());
         AboutCommand = new Command(() => MaterialMessageBox.Show($"Wpf sample By Mohammad Reza Margiran") );
         ChangeSettingVisibilityCommand = new Command(()=> { SettingsVisibility = ChangeSettingVisibility(); });
+        OpenMenuCommand = new Command(OpenMenu);
+        CloseMenuCommand = new Command(CloseMenu);
+        OpenMenuVisibility = true;
         _linksViewModel = new ObservableCollection<LinksViewModel>();
 
         _linksViewModel.Add(new LinksViewModel(new Models.LinkModel { Title = "google", FileName = "chrome", Argument = "google.com", Id = Guid.NewGuid(), Order = 1, ShortDescription = "google" }));
         _linksViewModel.Add(new LinksViewModel(new Models.LinkModel { Title = "yahoo", FileName = "chrome", Argument = "yahoo.com", Id = Guid.NewGuid(), Order = 2, ShortDescription = "yahoo" }));
     }
 
-    private Visibility ChangeSettingVisibility()
+    private void ShowLinkDetails(Guid id)
+    {
+        var link = _linksViewModel.FirstOrDefault(l => l.Id == id);
+        if (link == null)
+            return;
+        SelectedLink = link;
+        try
+        {
+            if (OpenMenuVisibility)
+            {
+                Storyboard? sb = Application.Current.MainWindow.FindResource("OpenMenu") as Storyboard;
+                sb.Begin();
+                OpenMenu();
+            }
+            else
+            {
+                Storyboard? sb = Application.Current.MainWindow.FindResource("CloseMenu") as Storyboard;
+                sb.Begin();
+                CloseMenu();
+            }
+        }
+        catch { }
+
+
+        
+    }
+
+        private Visibility ChangeSettingVisibility()
     {
         if (SettingsVisibility == Visibility.Collapsed)
         {
@@ -110,111 +146,36 @@ public class MainWindowViewModel : BaseViewModel
 
     }
 
-    //    private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    //    {
-    //        if (sender != null)
-    //        {
-    //            var x = (sender as StackPanel)?.Tag;
-    //            using (var db = new AppDbContext())
-    //            {
-    //                var item = db.Links.FirstOrDefault(s => s.Argument == x.ToString());
-    //                SiteOpen(item.FileName, item.Argument, item.InternetNeeded);
+    private void OpenMenu()
+    {
+        OpenMenuVisibility = false;
+        CloseMenuVisibility = true;
+    }
 
-    //            }
+    private void CloseMenu()
+    {
+        OpenMenuVisibility = true;
+        CloseMenuVisibility = false;
+    }
 
-
-    //        }
-
-
-    //    }
-
-    //    private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
-    //    {
-    //        try
-    //        {
-    //            if (ButtonCloseMenu.Visibility == Visibility.Collapsed)
-    //            {
-    //                Storyboard sb = this.FindResource("OpenMenu") as Storyboard;
-    //                //Storyboard.SetTarget(sb, this.btn);
-    //                sb.Begin();
-    //                //           ButtonCloseMenu.Visibility = Visibility.Visible ;
-    //                RunOpenMenu();
-
-    //                var x = (sender as Button).Tag;
-    //                ShowDetail((Guid)x);
-
-    //            }
-    //            else
-    //            {
-    //                Storyboard sb = this.FindResource("CloseMenu") as Storyboard;
-    //                //Storyboard.SetTarget(sb, this.btn);
-    //                sb.Begin();
-    //                // ButtonCloseMenu.Visibility = Visibility.Collapsed;
-    //                RunCloseMenu();
-
-    //            }
-    //        }
-    //        catch { }
-    //    }
-
-    //    private void ShowDetail(Guid itemId)
-    //    {
-    //        using (var db = new AppDbContext())
-    //        {
-    //            var item = db.Links.FirstOrDefault(s => s.Id == itemId);
-
-    //            //     var item =listOfItems.FirstOrDefault(s => s.ItemId == itemId);
-    //            TxtTitle.Text = item.Title;
-    //            TxtShortDescription.Text = item.ShortDescription;
-    //            TxtUser.Text = item.UserName;
-    //            TxtPassword.Text = item.DefaultPassword;
-    //            TxtDescription.Text = item.Description;
-
-    //        }
-    //    }
-    //    private void RunOpenMenu()
-    //    {
-    //        ButtonOpenMenu.Visibility = Visibility.Collapsed;
-    //        ButtonCloseMenu.Visibility = Visibility.Visible;
-    //    }
-    //    private void RunCloseMenu()
-    //    {
-    //        ButtonOpenMenu.Visibility = Visibility.Visible;
-    //        ButtonCloseMenu.Visibility = Visibility.Collapsed;
-
-    //    }
-
-    //    private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
-    //    {
-    //        RunCloseMenu();
-    //    }
-
-    //    private void OpenBrowser_Click(object sender, RoutedEventArgs e)
-    //    {
-    //        var x = (sender as Button).Tag;
-
-    //        using (var db = new AppDbContext())
-    //        {
-    //            var item = db.Links.FirstOrDefault(s => s.Id == (Guid)x);
-    //            //  var item = listOfItems.FirstOrDefault(s => s.ItemId == (int) x);
-
-    //            SiteOpen(item.FileName, item.Argument, item.InternetNeeded);
-    //            // item.Visited += 1;
-    //            // db.SaveChanges();
-    //        }
-    //    }
-
-    //    private void Button_Click_1(object sender, RoutedEventArgs e)
-    //    {
-    //        string msg = "Wpf sample application";
-
-
-    //        MaterialMessageBox.Show(msg, "Link List");
-
-    //    }
+ 
 
     #endregion
     #region Property
+
+    private LinksViewModel _selectedLink;
+
+    public LinksViewModel SelectedLink
+    {
+        get { return _selectedLink; }
+        set { 
+            _selectedLink = value; 
+            Notify(nameof(SelectedLink));
+
+        }
+    }
+
+
     private Visibility _settingsVisibility;
 
     public Visibility SettingsVisibility
@@ -226,6 +187,27 @@ public class MainWindowViewModel : BaseViewModel
             Notify(nameof(SettingsVisibility));
         }
     }
+
+    private bool _openMenuVisibility ;
+
+    public bool OpenMenuVisibility
+    {
+        get { return _openMenuVisibility; }
+        set { _openMenuVisibility = value;
+            Notify(nameof(OpenMenuVisibility));
+        }
+    }
+
+    private bool _closeMenuVisibility;
+
+    public bool CloseMenuVisibility
+    {
+        get { return _closeMenuVisibility; }
+        set { _closeMenuVisibility = value;
+            Notify(nameof(CloseMenuVisibility));
+        }
+    }
+
     private bool _sortByVisitedCount;
 
     public bool SortByVisitedCount
