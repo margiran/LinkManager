@@ -5,23 +5,24 @@ using LinkManagerClientWPF.Entities;
 
 namespace LinkManagerClientWPF.Data;
 
-public class LinksRepository : ILinkRepository
+public class LinkRepository : ILinkRepository
 {
+    private readonly AppDbContext _context;
+    public LinkRepository(AppDbContext context)
+    {
+        _context = context;
+    }
+
     public void AddOrUpdate(List<Link> linksToUpdate)
     {
-        using (var db = new AppDbContext())
-        {
-            db.Links.UpdateRange(linksToUpdate);
-            db.SaveChanges();
-        }
+            _context.Links.UpdateRange(linksToUpdate);
+            _context.SaveChanges();
     }
 
     public IEnumerable<Link> GetAll(bool orderByVisitCount=true, string filter="")
     {
         IEnumerable<Link> links;
-        using (var db = new AppDbContext())
-        {
-            links= db.Links;
+            links= _context.Links;
             if(!string.IsNullOrEmpty(filter))
             {
                 links.Where(l=> l.Title.Contains(filter) || l.ShortDescription.Contains(filter));
@@ -34,17 +35,13 @@ public class LinksRepository : ILinkRepository
             {
                 links.OrderBy(l=> l.Order);
             }
-        }
         return links.ToList();
     }
 
     public Link GetById(Guid id)
     {
         Link link;
-        using (var db = new AppDbContext())
-        {
-            link= db.Links.FirstOrDefault(l=> l.Id == id);
-        }
+            link= _context.Links.FirstOrDefault(l=> l.Id == id);
         return link;
     }
 
@@ -52,10 +49,7 @@ public class LinksRepository : ILinkRepository
     {
         string lastUpdate="";
         Link link;
-        using (var db = new AppDbContext())
-        {
-            link= db.Links.OrderByDescending(l=> l.UpdateAt).First();
-        }
+            link= _context.Links.OrderByDescending(l=> l.UpdateAt).First();
         if(link!= null)
             lastUpdate= link.UpdateAt.ToString();
         return lastUpdate;
@@ -63,16 +57,13 @@ public class LinksRepository : ILinkRepository
     public void SetVisited(Guid id)
     {
         LinkVisitCount visitCount=new LinkVisitCount{
-            Id=id,
+            LinkId=id,
             VisitedCount=1
         };
-        using (var db = new AppDbContext())
-        {
-            var existing= db.VisitsCount.Find(id);
+            var existing= _context.VisitsCount.Find(id);
             if (existing!=null)
                 visitCount.VisitedCount=existing.VisitedCount+1; 
-            db.VisitsCount.Update(visitCount);
-            db.SaveChanges();
-        }
+            _context.VisitsCount.Update(visitCount);
+            _context.SaveChanges();
     }
 }

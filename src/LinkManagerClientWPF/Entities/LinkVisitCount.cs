@@ -10,7 +10,8 @@ public class LinkVisitCount
         
     }
     [Key]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
+    public Guid LinkId { get; set; }
 
     public int VisitedCount { get; set; }= 0;
 

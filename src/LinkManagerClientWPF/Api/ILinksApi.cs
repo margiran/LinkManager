@@ -9,6 +9,6 @@ namespace LinkManagerClientWPF.Api;
 
 public interface ILinksApi
 {
-    [Get("/api/links")]
-    Task<IReadOnlyCollection< LinkSearchResponse>> SearchUpdateLinks(DateTimeOffset updateAt);
+    [Get("/api/links?updateAfter={updateAt}")]
+    Task<IReadOnlyCollection<LinkSearchResponse>> SearchUpdateLinks(string? updateAt);
 }

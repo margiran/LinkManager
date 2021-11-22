@@ -8,248 +8,250 @@
         mc:Ignorable="d"
         Height="600" Width="1024"
         WindowStartupLocation="CenterScreen"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
-        
-          Closing="WPFClient_Closing" ResizeMode="CanMinimize" Icon="Assets/quick_ac.ico" FontFamily="Tahoma" Title="{Binding WindowTitle}" ShowInTaskbar="True"  >
-          <!-- <Window.DataContext>
-            <viewModels:MainWindowViewModel /> />
-        </Window.DataContext> -->
-    
-          <Window.Resources>
-            <Storyboard x:Key="OpenMenu"  >
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMain}">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="250"/>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.Target ="{Binding ElementName=GridMain}">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="50"/>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMenu}">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="250"/>
-                </DoubleAnimationUsingKeyFrames>
-            </Storyboard>
-            <Storyboard x:Key="CloseMenu">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMain}">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.Target ="{Binding ElementName=GridMain}">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="50"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMenu}">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
-                </DoubleAnimationUsingKeyFrames>
-            </Storyboard>
-            <Style x:Key="DetailTitle" TargetType="TextBlock" >
-                <Setter Property="Foreground" Value="Red"   />
-                <Setter Property="HorizontalAlignment" Value="Center" />
-                <Setter Property="FontFamily"  Value="B Mitra"   />
-                <Setter Property="Padding"  Value="2" />
-                <Setter Property="VerticalAlignment"   Value="Top"  />
-                <Setter Property="FontSize"     Value="20"  />
-                <Setter Property="FontWeight"    Value="Bold"   />
-                <Setter Property="TextWrapping"      Value="Wrap"  />
-                <Setter Property="TextAlignment"       Value="Right"  />
-    
-            </Style>
-            <Style x:Key="DetailTextBold" TargetType="TextBlock" >
-                <Setter Property="Foreground" Value="DarkBlue"   />
-                <Setter Property="HorizontalAlignment" Value="Left"  />
-                <Setter Property="Padding"  Value="3" />
-                <Setter Property="VerticalAlignment"   Value="Top"  />
-                <!--<Setter Property="FontFamily"  Value="B Mitra"   />-->
-                <Setter Property="FontSize"     Value="15"  />
-                <Setter Property="FontWeight"    Value="Medium"     />
-                <Setter Property="TextWrapping"      Value="Wrap"  />
-                <Setter Property="TextAlignment"       Value="Left"  />
-    
-            </Style>
-            <Style x:Key="DetailRadioBold" TargetType="RadioButton" >
-                <Setter Property="Foreground" Value="DarkBlue"   />
-                <Setter Property="HorizontalAlignment" Value="Left"  />
-                <Setter Property="Padding"  Value="3" />
-                <Setter Property="VerticalAlignment"   Value="Top"  />
-                <!--<Setter Property="FontFamily"  Value="B Mitra"   />-->
-                <Setter Property="FontSize"     Value="15"  />
-                <Setter Property="FontWeight"    Value="Medium"     />
-    
-            </Style>
-    
-            <Style x:Key="DetailText" TargetType="TextBlock" >
-                <Setter Property="Foreground" Value="Blue"  />
-                <Setter Property="HorizontalAlignment" Value="Left"   />
-                <Setter Property="Padding"  Value="3" />
-                <Setter Property="VerticalAlignment" Value="Top"   />
-                <!--<Setter Property="FontFamily"  Value="B Mitra"   />-->
-                <Setter Property="FontSize"   Value="12"  />
-                <Setter Property="TextWrapping" Value="Wrap"  />
-                <Setter Property="TextAlignment" Value="Justify"  />
-            </Style>
-            <Style x:Key="ButtonText" TargetType="TextBlock" >
-                <Setter Property="Foreground" Value="WhiteSmoke"   />
-                <Setter Property="FontFamily"  Value="B Mitra"   />
-                <Setter Property="HorizontalAlignment" Value="Left"   />
-                <Setter Property="Padding"  Value="0" />
-                <Setter Property="VerticalAlignment" Value="Center"   />
-                <Setter Property="FontSize"   Value="16"  />
-                <Setter Property="TextWrapping" Value="WrapWithOverflow"  />
-                <Setter Property="TextAlignment" Value="Justify"  />
-            </Style>
-            <Storyboard x:Key="OpenCloseMenu">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMain}">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.Target ="{Binding ElementName=GridMain}">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="50"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMenu}">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
-                </DoubleAnimationUsingKeyFrames>
-            </Storyboard>
-    
-        </Window.Resources>
-        <Window.Triggers>
-            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
-                <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
-            </EventTrigger>
-        </Window.Triggers>
-        <Grid Background="White" >
-            <Grid Width="250"   HorizontalAlignment="left" Margin="-250 0 0 0 ">
-                <StackPanel FlowDirection="RightToLeft" x:Name="GridMenu"  HorizontalAlignment="Center"  Orientation="Vertical" RenderTransformOrigin="0.5,0.5" >
-                    <StackPanel.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </StackPanel.RenderTransform>
-                    <Grid >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="150" />
-                            <RowDefinition Height="50" />
-                            <RowDefinition Height="50" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="250" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions >
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-    
-                        <Image Grid.Row="0" Grid.ColumnSpan="2" Height="150" Width="220" VerticalAlignment="Top" HorizontalAlignment="Center"  Source="Assets\ARM (2).jpg"   />
-    
-                        <TextBlock x:Name="TxtTitle" Grid.Row="1" Style="{StaticResource DetailTitle}" Grid.ColumnSpan="2"  ></TextBlock>
-    
-                        <TextBlock x:Name="TxtShortDescription" Grid.Row="2" Style="{StaticResource DetailText}" Grid.ColumnSpan="2"  ></TextBlock>
-                        <TextBlock Grid.Row="3" Grid.Column="0"   Style="{StaticResource DetailTextBold}"  Text="نام کاربری :"  ></TextBlock>
-                        <TextBlock Grid.Row="3" Grid.Column="1" x:Name="TxtUser"  Style="{StaticResource DetailText}"  Text="branch" ></TextBlock>
-                        <TextBlock  Grid.Row="4" Grid.Column="0" Style="{StaticResource DetailTextBold}" Text="کلمه عبور :"  ></TextBlock>
-                        <TextBlock x:Name="TxtPassword" Grid.Row="4" Style="{StaticResource DetailText}" Grid.Column="1" TextAlignment="Left"   Text="pass" ></TextBlock>
-                        <ScrollViewer  Grid.Row="5" Grid.ColumnSpan="2" >
-                            <TextBlock x:Name="TxtDescription"  Style="{StaticResource DetailText}"  ></TextBlock>
-                        </ScrollViewer>
-    
-    
-                    </Grid>
-                </StackPanel>
-            </Grid>
-            <Grid Margin="0,0,0,0">
-                <Grid x:Name="GridMain" Background="#FFC5D0D8"   Width="1024" RenderTransformOrigin="0.5,0.5" >
-                    <Grid.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Grid.RenderTransform>
-    
+        ResizeMode="CanMinimize" Icon="{StaticResource ResourceKey=ico }" FontFamily="Tahoma" Title="{Binding WindowTitle}" ShowInTaskbar="True" WindowStyle="None"  >
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <Storyboard x:Key="OpenMenu"  >
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMain}">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="250"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.Target ="{Binding ElementName=GridMain}">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="50"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMenu}">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="250"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="CloseMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMain}">
+                <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.Target ="{Binding ElementName=GridMain}">
+                <EasingDoubleKeyFrame KeyTime="0" Value="50"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMenu}">
+                <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Style x:Key="DetailTitle" TargetType="TextBlock" >
+            <Setter Property="Foreground" Value="Red"   />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily"  Value="B Mitra"   />
+            <Setter Property="Padding"  Value="2" />
+            <Setter Property="VerticalAlignment"   Value="Top"  />
+            <Setter Property="FontSize"     Value="20"  />
+            <Setter Property="FontWeight"    Value="Bold"   />
+            <Setter Property="TextWrapping"      Value="Wrap"  />
+            <Setter Property="TextAlignment"       Value="Right"  />
+
+        </Style>
+        <Style x:Key="DetailTextBold" TargetType="TextBlock" >
+            <Setter Property="Foreground" Value="DarkBlue"   />
+            <Setter Property="HorizontalAlignment" Value="Left"  />
+            <Setter Property="Padding"  Value="3" />
+            <Setter Property="VerticalAlignment"   Value="Top"  />
+            <!--<Setter Property="FontFamily"  Value="B Mitra"   />-->
+            <Setter Property="FontSize"     Value="15"  />
+            <Setter Property="FontWeight"    Value="Medium"     />
+            <Setter Property="TextWrapping"      Value="Wrap"  />
+            <Setter Property="TextAlignment"       Value="Left"  />
+
+        </Style>
+        <Style x:Key="DetailRadioBold" TargetType="RadioButton" >
+            <Setter Property="Foreground" Value="DarkBlue"   />
+            <Setter Property="HorizontalAlignment" Value="Left"  />
+            <Setter Property="Padding"  Value="3" />
+            <Setter Property="VerticalAlignment"   Value="Top"  />
+            <!--<Setter Property="FontFamily"  Value="B Mitra"   />-->
+            <Setter Property="FontSize"     Value="15"  />
+            <Setter Property="FontWeight"    Value="Medium"     />
+
+        </Style>
+
+        <Style x:Key="DetailText" TargetType="TextBlock" >
+            <Setter Property="Foreground" Value="Blue"  />
+            <Setter Property="HorizontalAlignment" Value="Left"   />
+            <Setter Property="Padding"  Value="3" />
+            <Setter Property="VerticalAlignment" Value="Top"   />
+            <!--<Setter Property="FontFamily"  Value="B Mitra"   />-->
+            <Setter Property="FontSize"   Value="12"  />
+            <Setter Property="TextWrapping" Value="Wrap"  />
+            <Setter Property="TextAlignment" Value="Justify"  />
+        </Style>
+        <Style x:Key="ButtonText" TargetType="TextBlock" >
+            <Setter Property="Foreground" Value="WhiteSmoke"   />
+            <Setter Property="FontFamily"  Value="B Mitra"   />
+            <Setter Property="HorizontalAlignment" Value="Left"   />
+            <Setter Property="Padding"  Value="0" />
+            <Setter Property="VerticalAlignment" Value="Center"   />
+            <Setter Property="FontSize"   Value="16"  />
+            <Setter Property="TextWrapping" Value="WrapWithOverflow"  />
+            <Setter Property="TextAlignment" Value="Justify"  />
+        </Style>
+        <Storyboard x:Key="OpenCloseMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMain}">
+                <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.Target ="{Binding ElementName=GridMain}">
+                <EasingDoubleKeyFrame KeyTime="0" Value="50"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.Target ="{Binding ElementName=GridMenu}">
+                <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
+            <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid Background="White" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="166*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="75*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Width="250"   HorizontalAlignment="Left" Margin="-250,0,0,0">
+            <StackPanel FlowDirection="RightToLeft" x:Name="GridMenu"  HorizontalAlignment="Center"  Orientation="Vertical" RenderTransformOrigin="0.5,0.5" >
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="250" />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="250" />
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="1" Background="White" >
-                        <Image Height="250" VerticalAlignment="Top" Source="Assets\ARM (2).jpg" Stretch="UniformToFill"  />
-                        <StackPanel Margin="0,300,0,0">
-                            <TextBlock Height="50" TextWrapping="Wrap"  VerticalAlignment="Center"  Text="برنامه دسترسی سریع بانک تجارت"  Style="{StaticResource DetailTextBold}" Grid.Row="1"  FlowDirection="RightToLeft" HorizontalAlignment="Center" />
-                            <TextBlock x:Name="Status" Style="{StaticResource DetailTextBold}" FlowDirection="RightToLeft" HorizontalAlignment="Center" ClipToBounds="True"/>
-                            <Grid Margin="20" x:Name="SortSetting" Visibility="Collapsed "> 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
+
+                    <Image Grid.Row="0" Grid.ColumnSpan="2" Height="150" Width="220" VerticalAlignment="Top" HorizontalAlignment="Center"  Source="{StaticResource ResourceKey=logo}"   />
+
+                    <TextBlock x:Name="TxtTitle" Grid.Row="1" Style="{StaticResource DetailTitle}" Grid.ColumnSpan="2"  ></TextBlock>
+
+                    <TextBlock x:Name="TxtShortDescription" Grid.Row="2" Style="{StaticResource DetailText}" Grid.ColumnSpan="2"  ></TextBlock>
+                    <TextBlock Grid.Row="3" Grid.Column="0"   Style="{StaticResource DetailTextBold}"  Text="User Name:"  ></TextBlock>
+                    <!--<TextBlock Grid.Row="3" Grid.Column="1" x:Name="TxtUser"  Style="{StaticResource DetailText}"  Text="branch" ></TextBlock>-->
+                    <TextBlock  Grid.Row="4" Grid.Column="0" Style="{StaticResource DetailTextBold}" Text="Password:"  ></TextBlock>
+                    <TextBlock x:Name="TxtPassword" Grid.Row="4" Style="{StaticResource DetailText}" Grid.Column="1" TextAlignment="Left"   Text="" ></TextBlock>
+                    <ScrollViewer  Grid.Row="5" Grid.ColumnSpan="2" >
+                        <TextBlock x:Name="TxtDescription"  Style="{StaticResource DetailText}"  ></TextBlock>
+                    </ScrollViewer>
+
+
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.ColumnSpan="3">
+            <Grid x:Name="GridMain" Background="#FFC5D0D8"   Width="1024" RenderTransformOrigin="0.5,0.5" >
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="250" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1" Background="White" >
+                    <Image Height="250" VerticalAlignment="Top" Source="{StaticResource ResourceKey=logo}" Stretch="UniformToFill"  />
+                    <StackPanel Margin="0,300,0,0">
+                        <TextBlock Height="50" TextWrapping="Wrap"  VerticalAlignment="Center"  Text="Wpf sample client for API "  Style="{StaticResource DetailTextBold}" Grid.Row="1"  FlowDirection="RightToLeft" HorizontalAlignment="Center" />
+                        <TextBlock x:Name="Status" Style="{StaticResource DetailTextBold}" FlowDirection="RightToLeft" HorizontalAlignment="Center" ClipToBounds="True"/>
+                        <Grid Margin="20" x:Name="SortSetting" Visibility="{Binding SettingsVisibility}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Grid.Row="0"  x:Name="NormalOrder" Content="Normal sort" Style="{StaticResource DetailRadioBold}" />
+
+                            <RadioButton Grid.Row="1" x:Name="ViewOrder" Content="Sort by most visited"  Style="{StaticResource DetailRadioBold}" IsChecked="{Binding SortByVisitedCount}" />
+                        </Grid>
+
+
+                    </StackPanel>
+                </Grid>
+                <ScrollViewer Grid.Column="0" Grid.Row="0"  >
+                    <StackPanel FlowDirection="RightToLeft" >
+
+                        <StackPanel Margin="5 0">
+                            <Grid>
+                                <Grid.RowDefinitions >
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <RadioButton Grid.Row="0"  x:Name="NormalOrder" Content="مرتب سازی عادی" Style="{StaticResource DetailRadioBold}" FlowDirection="RightToLeft" HorizontalAlignment="Right" IsChecked="True"  Checked="ToggleButton_OnChecked"/>
-    
-                                <RadioButton Grid.Row="1" x:Name="ViewOrder" Content="مرتب سازی بر اساس  بازدید"  Style="{StaticResource DetailRadioBold}" FlowDirection="RightToLeft" HorizontalAlignment="Right"  Checked="ToggleButton_OnChecked"/>
-    
-    
-                            </Grid>
-    
-    
-                        </StackPanel>
-                    </Grid>
-                    <ScrollViewer Grid.Column="0" Grid.Row="0"  >
-                        <StackPanel FlowDirection="RightToLeft" >
-    
-                            <StackPanel Margin="5 0">
-                                <Grid>
-                                    <Grid.RowDefinitions >
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="*"/>
-                                   </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Button x:Name="ButtonOpenMenu" Grid.Row="0" Grid.Column="2" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" HorizontalAlignment="Right"   Click="ButtonOpenMenu_Click" >
-                                        <materialDesign:PackIcon Kind="Menu"   />
-                                        <Button.Triggers>
-                                            <EventTrigger RoutedEvent="Button.Click">
-                                                <BeginStoryboard Storyboard="{StaticResource OpenMenu}">
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                        </Button.Triggers>
-                                    </Button>
-                                    <Button x:Name="ButtonCloseMenu" Grid.Row="0" Grid.Column="2" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" HorizontalAlignment="Right" Click="ButtonCloseMenu_Click" Visibility="Collapsed" >
-                                        <materialDesign:PackIcon Kind="Menu"   />
-                                        <Button.Triggers>
-    
-                                            <EventTrigger RoutedEvent="Button.Click">
-                                                <BeginStoryboard Storyboard="{StaticResource CloseMenu}">
-    
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                        </Button.Triggers>
-                                    </Button>
-                                    <TextBox x:Name="Search" TextChanged="Search_TextChanged" Margin="5" Grid.Row="0" Grid.Column="1" Width="200" Background="#FFF0F5F5" Foreground="#FF0E0303"   />
-                                    <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF1F237A" FontFamily="B Yekan" FontSize="16" >فیلتر</Label>
-                                    <ItemsControl x:Name="ListViewItems" ItemsSource="{Binding Items.Local}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"   >
-                                    <ItemsControl.DataContext>
+                                <Button x:Name="ButtonOpenMenu" Grid.Row="0" Grid.Column="2" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" HorizontalAlignment="Right"  >
+                                    <materialDesign:PackIcon Kind="Menu"   />
+                                    <Button.Triggers>
+                                        <EventTrigger RoutedEvent="Button.Click">
+                                            <BeginStoryboard Storyboard="{StaticResource OpenMenu}">
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                                <Button x:Name="ButtonCloseMenu" Grid.Row="0" Grid.Column="2" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" HorizontalAlignment="Right" Visibility="Collapsed" >
+                                    <materialDesign:PackIcon Kind="Menu"   />
+                                    <Button.Triggers>
+
+                                        <EventTrigger RoutedEvent="Button.Click">
+                                            <BeginStoryboard Storyboard="{StaticResource CloseMenu}">
+
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                                <TextBox x:Name="Search" Margin="5" Grid.Row="0" Grid.Column="1" Width="200" Background="#FFF0F5F5" Foreground="#FF0E0303"  Text="{Binding Filter,UpdateSourceTrigger=PropertyChanged}"  />
+                                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF1F237A" FontFamily="B Yekan" FontSize="16" >Search</Label>
+                                <ItemsControl x:Name="ListViewItems" ItemsSource="{Binding LinkCollection}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"   >
+                                    <!--<ItemsControl.DataContext>
                                         <local:AppDbContext/>
-                                    </ItemsControl.DataContext>
+                                    </ItemsControl.DataContext>-->
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate  >
                                             <Border Margin="1" Width="245" Height="50" >
-                                                <StackPanel MouseLeftButtonDown="StackPanel_MouseLeftButtonDown" Tag="{Binding Url}"   >
+                                                <StackPanel Tag="{Binding Argument}"   >
                                                     <Grid >
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="50" />
@@ -258,7 +260,8 @@
                                                             <ColumnDefinition Width="205" />
                                                             <ColumnDefinition Width="40" />
                                                         </Grid.ColumnDefinitions>
-                                                        <Button x:Name="OpenBrowser" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Left"   HorizontalAlignment="Stretch" Tag="{Binding ItemId}" Click="OpenBrowser_Click" BorderBrush="#FF1030B0">
+                                                        <Button x:Name="OpenBrowser" Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+AncestorType={x:Type Window}}, Path=DataContext.OpenLinkCommand}" CommandParameter="{Binding Id}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalContentAlignment="Left"   HorizontalAlignment="Stretch" Tag="{Binding Id}" BorderBrush="#FF1030B0">
                                                             <Button.Background>
                                                                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                                                     <GradientStop Color="#FFF3F3F3" Offset="1"/>
@@ -268,33 +271,14 @@
                                                                 </LinearGradientBrush>
                                                             </Button.Background>
                                                             <Grid  >
-                                                                <!--<Grid.RowDefinitions>
-                                                                    <RowDefinition Height="*" />
-                                                                </Grid.RowDefinitions>
-                                                                <Grid.ColumnDefinitions >
-                                                                    <ColumnDefinition Width="*" />
-                                                                </Grid.ColumnDefinitions>-->
-                                                                    
-                                                                    <!--<materialDesign:PackIcon Kind="OpenInBrowser" Grid.Row="0" Grid.Column="2"/>-->
-                                                                    <TextBlock HorizontalAlignment="Stretch" Style="{StaticResource ButtonText}" TextAlignment="Center"  Grid.Row="0" Grid.Column="0" >
-                                                                    <Run Text="{Binding Order}" />
-                                                                    <Run Text="-"/>
-                                                                     <Run Text="{Binding Title}"   />
-    
-                                                                    <!--<TextBlock.Text>
-                                                                        <MultiBinding StringFormat="{}{0}/{1}">
-                                                                            <Binding Source="{Binding Items}"  Path="{Binding Title}" />
-                                                                            <Binding  Source="{Binding Items}"  Path="{Binding Order}" />
-                                                                        </MultiBinding>
-                                                                    </TextBlock.Text>-->
+                                                                <TextBlock HorizontalAlignment="Stretch" Style="{StaticResource ButtonText}" TextAlignment="Center"  Grid.Row="0" Grid.Column="0" >
+                                                                    <!--<Run Text="{Binding Order}" />-->
+                                                                    <!--<Run Text="-"/>-->
+                                                                     <Run Text="{Binding Title,Mode=OneWay}"   />
                                                                 </TextBlock>
-    
-    
-                                                                <!--<TextBlock HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Text="{Binding Title}" />
-                                                                <TextBlock HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0" Text="{Binding Order}" />-->
                                                             </Grid>
                                                         </Button>
-                                                        <Button x:Name="ButtonDetail"   Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"   HorizontalAlignment="Center" Tag="{Binding ItemId}"  Click="ButtonOpenMenu_Click" BorderBrush="#FF1030B0" >
+                                                        <Button x:Name="ButtonDetail"   Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"   HorizontalAlignment="Center" Tag="{Binding Id}"  BorderBrush="#FF1030B0" >
                                                             <Button.Background>
                                                                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                                                     <GradientStop Color="#FFF3F3F3" Offset="1"/>
@@ -303,23 +287,13 @@
                                                                     <GradientStop Color="#FF2D408C" Offset="0.988"/>
                                                                 </LinearGradientBrush>
                                                             </Button.Background>
-    
-                                                            <!--<Grid HorizontalAlignment="Left" >-->
+
                                                             <materialDesign:PackIcon HorizontalAlignment="Center" Kind="Details" FontSize="5" />
-                                                            <!--<Button.Triggers>
-                                                                <EventTrigger  RoutedEvent="Button.Click" >
-                                                                    <BeginStoryboard Storyboard="{StaticResource OpenMenu}">
-                                                                    </BeginStoryboard>
-                                                                </EventTrigger>
-                                                            </Button.Triggers>-->
-    
-                                                            <!--<TextBlock HorizontalAlignment="Center" Text="جزئیات " />-->
-                                                            <!--</Grid>-->
                                                         </Button>
-    
+
                                                     </Grid>
-    
-    
+
+
                                                 </StackPanel>
                                             </Border>
                                         </DataTemplate>
@@ -330,35 +304,35 @@
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
-                                </Grid>
-    
-                            </StackPanel>
-    
+                            </Grid>
+
                         </StackPanel>
-                    </ScrollViewer>
-    
-    
-                </Grid>
-    
+
+                    </StackPanel>
+                </ScrollViewer>
+
+
             </Grid>
-            <!--Background="#FF3580bf"-->
-    
-            <StackPanel Orientation="Horizontal" VerticalAlignment="top" Height="40" HorizontalAlignment="Right" >
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" Click="Button_Click_1" >
-                    <materialDesign:PackIcon Kind="InfoCircle"  />
-                </Button>
-                <Button x:Name="SortSettingShow"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"   BorderBrush="{x:Null}" Click="SortSetting_OnClick">
-                    <materialDesign:PackIcon Kind="Settings" />
-                </Button>
-    
-                <Button x:Name="Refreshbtn"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"   BorderBrush="{x:Null}" Click="Refreshbtn_OnClick">
-                    <materialDesign:PackIcon Kind="Refresh" />
-                </Button>
-    
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"   BorderBrush="{x:Null}" Click="Button_Click">
-                    <materialDesign:PackIcon Kind="Power" />
-                </Button>
-    
-            </StackPanel>
+
         </Grid>
-    </Window>
+        <!--Background="#FF3580bf"-->
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="40" HorizontalAlignment="Right" Grid.Column="2" >
+            <Button Command="{Binding AboutCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"  BorderBrush="{x:Null}" >
+                <materialDesign:PackIcon Kind="InfoCircle"  />
+            </Button>
+            <Button  Command="{Binding ChangeSettingVisibilityCommand}"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"   BorderBrush="{x:Null}">
+                <materialDesign:PackIcon Kind="Settings" />
+            </Button>
+
+            <Button x:Name="Refreshbtn" Command="{Binding UpdateLocalDatabaseCommand}"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"   BorderBrush="{x:Null}">
+                <materialDesign:PackIcon Kind="Refresh" />
+            </Button>
+
+            <Button Command="{Binding ExitCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Width="20" Height="20" Padding="0" Margin= "5"   BorderBrush="{x:Null}" >
+                <materialDesign:PackIcon Kind="Power" />
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</Window>
