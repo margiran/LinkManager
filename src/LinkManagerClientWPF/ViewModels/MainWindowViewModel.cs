@@ -14,7 +14,7 @@ namespace LinkManagerClientWPF.ViewModels;
 public class MainWindowViewModel : BaseViewModel
 {
     private readonly ObservableCollection<LinksViewModel> _linksViewModel;
-
+    private readonly LinkManagerModel _linkManagerModel;
     public IEnumerable<LinksViewModel> LinkCollection => _linksViewModel;
 
     // private readonly LinkRepository _repository;
@@ -32,6 +32,7 @@ public class MainWindowViewModel : BaseViewModel
     public Command ChangeSettingVisibilityCommand { get; set; }
     public Command OpenMenuCommand { get; set; }
     public Command CloseMenuCommand { get; set; }
+    public Command UpdateLinksCommand { get; set; }
 
 
     #endregion
@@ -40,6 +41,7 @@ public class MainWindowViewModel : BaseViewModel
 
     public MainWindowViewModel()
     {
+        _linkManagerModel =new  LinkManagerModel();
         // _repository = new LinkRepository();
         OpenLinkCommand = new Command<Guid>(OpenLink);
         SelectALinkCommand = new Command<Guid>(ShowLinkDetails);
@@ -48,11 +50,20 @@ public class MainWindowViewModel : BaseViewModel
         ChangeSettingVisibilityCommand = new Command(()=> { SettingsVisibility = ChangeSettingVisibility(); });
         OpenMenuCommand = new Command(OpenMenu);
         CloseMenuCommand = new Command(CloseMenu);
-        OpenMenuVisibility = true;
+        UpdateLinksCommand = new Command(UpdateLinks);
+        //OpenMenuVisibility = true;
         _linksViewModel = new ObservableCollection<LinksViewModel>();
+        UpdateLinks();
+    }
 
-        _linksViewModel.Add(new LinksViewModel(new Models.LinkModel { Title = "google", FileName = "chrome", Argument = "google.com", Id = Guid.NewGuid(), Order = 1, ShortDescription = "google" }));
-        _linksViewModel.Add(new LinksViewModel(new Models.LinkModel { Title = "yahoo", FileName = "chrome", Argument = "yahoo.com", Id = Guid.NewGuid(), Order = 2, ShortDescription = "yahoo" }));
+    private void UpdateLinks()
+    {
+        _linksViewModel.Clear();
+        var links = _linkManagerModel.GetLinks(Filter, SortByVisitedCount);
+        foreach (var item in links)
+        {
+            _linksViewModel.Add(new LinksViewModel(item));
+        }
     }
 
     private void ShowLinkDetails(Guid id)
@@ -65,13 +76,13 @@ public class MainWindowViewModel : BaseViewModel
         {
             if (OpenMenuVisibility)
             {
-                Storyboard? sb = Application.Current.MainWindow.FindResource("OpenMenu") as Storyboard;
+                Storyboard sb = Application.Current.MainWindow.FindResource("OpenMenu") as Storyboard;
                 sb.Begin();
                 OpenMenu();
             }
             else
             {
-                Storyboard? sb = Application.Current.MainWindow.FindResource("CloseMenu") as Storyboard;
+                Storyboard sb = Application.Current.MainWindow.FindResource("CloseMenu") as Storyboard;
                 sb.Begin();
                 CloseMenu();
             }
@@ -188,7 +199,7 @@ public class MainWindowViewModel : BaseViewModel
         }
     }
 
-    private bool _openMenuVisibility ;
+    private bool _openMenuVisibility =true;
 
     public bool OpenMenuVisibility
     {
@@ -198,7 +209,7 @@ public class MainWindowViewModel : BaseViewModel
         }
     }
 
-    private bool _closeMenuVisibility;
+    private bool _closeMenuVisibility=false;
 
     public bool CloseMenuVisibility
     {
@@ -208,13 +219,14 @@ public class MainWindowViewModel : BaseViewModel
         }
     }
 
-    private bool _sortByVisitedCount;
+    private bool _sortByVisitedCount = true ;
 
     public bool SortByVisitedCount
     {
         get { return _sortByVisitedCount; }
         set { _sortByVisitedCount = value;
             Notify(nameof( SortByVisitedCount));
+            UpdateLinks();
         }
     }
     private string _filter;
@@ -226,6 +238,7 @@ public class MainWindowViewModel : BaseViewModel
         {
             _filter = value;
             Notify(nameof(Filter));
+            UpdateLinks();
         }
     }
 

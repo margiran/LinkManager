@@ -243,7 +243,7 @@
                                         </EventTrigger>
                                     </Button.Triggers>
                                 </Button>
-                                <TextBox x:Name="Search" Margin="5" Grid.Row="0" Grid.Column="1" Width="200" Background="#FFF0F5F5" Foreground="#FF0E0303"  Text="{Binding Filter,UpdateSourceTrigger=PropertyChanged}"  />
+                                <TextBox x:Name="Search" Margin="5" Grid.Row="0" Grid.Column="1" Width="200" Background="#FFF0F5F5" Foreground="#FF0E0303"  Text="{Binding Filter,UpdateSourceTrigger=PropertyChanged}" />
                                 <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FF1F237A" FontFamily="B Yekan" FontSize="16" >Search</Label>
                                 <ItemsControl x:Name="ListViewItems" ItemsSource="{Binding LinkCollection}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"   >
                                     <!--<ItemsControl.DataContext>

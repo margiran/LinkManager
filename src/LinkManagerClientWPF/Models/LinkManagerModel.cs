@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace LinkManagerClientWPF.Models
 {
-    internal class LinkManagerModel
+    public class LinkManagerModel
     {
-        public LinkListModel LinkList { get; }
+        private LinkListModel LinkList { get; }
         public LinkManagerModel()
         {
-            LinkList= new LinkListModel(true);
+            LinkList= new LinkListModel();
         }
-        public IEnumerable<LinkModel> GetLinks(string filter = "")
+        public IEnumerable<LinkModel> GetLinks(string filter = "", bool sortByVisitedCount = true)
         {
-           return LinkList.GetLinks(filter);
+           return LinkList.GetLinks(filter,sortByVisitedCount);
         }
 
     }

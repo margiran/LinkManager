@@ -6,25 +6,33 @@ using System.Threading.Tasks;
 
 namespace LinkManagerClientWPF.Models
 {
-    internal class LinkListModel
+    public class LinkListModel
     {
-        private bool SortByVistedCount { get; }
 
         private readonly List<LinkModel> Links;
 
-        public LinkListModel(bool sortByVistedCount)
+        public LinkListModel()
         {
-            SortByVistedCount = sortByVistedCount;
 
-            Links= new List<LinkModel>();   
+            Links= new List<LinkModel>();
+
+            Links.Add(new Models.LinkModel { Title = "google", FileName = "chrome", Argument = "google.com", Id = Guid.NewGuid(), Order = 1, ShortDescription = "google" });
+            Links.Add(new Models.LinkModel { Title = "yahoo", FileName = "chrome", Argument = "yahoo.com", Id = Guid.NewGuid(), Order = 2, ShortDescription = "yahoo" });
+
         }
 
-        public IEnumerable<LinkModel> GetLinks(string filter="")
+        public IEnumerable<LinkModel> GetLinks(string filter="", bool sortByVisitedCount = true)
         {
-            if (string.IsNullOrEmpty(filter))
-                return Links;
+            IEnumerable<LinkModel> links;
 
-            return Links.Where(l => l.Argument.Contains(filter) || l.ShortDescription.Contains(filter) || l.Description.Contains(filter));
+            if (string.IsNullOrEmpty(filter))
+                links= Links;
+            else
+                 links= Links.Where(l => l.Argument.Contains(filter) || l.ShortDescription.Contains(filter));
+
+            if (sortByVisitedCount)
+                return links.OrderByDescending(l => l.LinkVisitCount);
+            return links.OrderBy(l=>l.Order);
         }
     }
 }

@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using LinkManagerClientWPF.Api;
 using LinkManagerClientWPF.Data;
+using LinkManagerClientWPF.Models;
 using LinkManagerClientWPF.Services;
 using LinkManagerClientWPF.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
+using LinkManagerClientWPF.ViewModels;
 
 namespace LinkManagerClientWPF
 {
@@ -25,6 +27,7 @@ namespace LinkManagerClientWPF
     public partial class App : Application
     {
         private ServiceProvider ServiceProvider;
+        private readonly LinkManagerModel _linkManagerModel;
         // [DllImport("user32", CharSet = CharSet.Unicode)]
         // static extern IntPtr FindWindow(string cls, string win);
         // [DllImport("user32")]
@@ -40,7 +43,7 @@ namespace LinkManagerClientWPF
         {
             IConfigurationRoot configuration = BuildConfiguration();
            ServiceProvider= BuildServiceCollection(configuration);
-
+            _linkManagerModel = new LinkManagerModel();
         }
 
         private  ServiceProvider BuildServiceCollection(IConfigurationRoot configuration)
@@ -73,8 +76,15 @@ namespace LinkManagerClientWPF
         }
         protected override void OnStartup(StartupEventArgs e)
         {
+            //MainWindow MainWindow = new MainWindow()
+            //{
+            //    DataContext =new MainWindowViewModel(_linkManagerModel)
+            //};
+
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            //mainWindow.DataContext = new MainWindowViewModel(_linkManagerModel);
+          
             mainWindow.Show();
             // const string appName = "MargiranLinkManager";
             // bool createdNew;
