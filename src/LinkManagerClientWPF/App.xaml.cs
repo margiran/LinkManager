@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using LinkManagerClientWPF.Api;
 using LinkManagerClientWPF.Data;
@@ -61,7 +53,7 @@ namespace LinkManagerClientWPF
             opt.UseSqlite(configuration.GetConnectionString("default") ));
             services.AddSingleton<MainWindow>();
             services.AddSingleton<ILinkManagerApiServices, LinkManagerApiServices>();
-            services.AddScoped<ILinkLocalDbService, LinkLocalDbService>();
+            services.AddTransient<ILinkLocalDbService, LinkLocalDbService>();
 
         }
         protected override void OnStartup(StartupEventArgs e)

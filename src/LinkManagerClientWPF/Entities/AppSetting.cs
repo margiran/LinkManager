@@ -12,6 +12,6 @@ public class AppSetting
     [Key]
     public int Id { get; set; }
     [MaxLength(20)]
-    public string OrderBy { get; set; }
+    public string? OrderBy { get; set; }
 }
 
