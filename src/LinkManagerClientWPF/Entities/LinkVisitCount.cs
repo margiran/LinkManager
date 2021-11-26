@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LinkManagerClientWPF.Entities;
 
@@ -15,6 +16,7 @@ public class LinkVisitCount
 
     public int VisitedCount { get; set; }= 0;
 
+    [ForeignKey("LinkId")]
     public Link Link { get; set; }
 
 }

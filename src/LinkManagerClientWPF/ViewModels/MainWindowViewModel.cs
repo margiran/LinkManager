@@ -39,10 +39,12 @@ public class MainWindowViewModel : BaseViewModel
 
     #region constructor
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(LinkManagerModel linkManagerModel)
     {
-        _linkManagerModel =new  LinkManagerModel();
+        //_linkManagerModel =new  LinkManagerModel();
+        _linkManagerModel = linkManagerModel;
         // _repository = new LinkRepository();
+        UpdateLocalDatabaseCommand = new Command(UpdateLocalDb);
         OpenLinkCommand = new Command<Guid>(OpenLink);
         SelectALinkCommand = new Command<Guid>(ShowLinkDetails);
         ExitCommand = new Command(() => Application.Current.Shutdown());
@@ -54,6 +56,11 @@ public class MainWindowViewModel : BaseViewModel
         //OpenMenuVisibility = true;
         _linksViewModel = new ObservableCollection<LinksViewModel>();
         UpdateLinks();
+    }
+
+    private void UpdateLocalDb()
+    {
+        _linkManagerModel.UpdateLocalDb();
     }
 
     private void UpdateLinks()

@@ -28,22 +28,12 @@ namespace LinkManagerClientWPF
     {
         private ServiceProvider ServiceProvider;
         private readonly LinkManagerModel _linkManagerModel;
-        // [DllImport("user32", CharSet = CharSet.Unicode)]
-        // static extern IntPtr FindWindow(string cls, string win);
-        // [DllImport("user32")]
-        // static extern IntPtr SetForegroundWindow(IntPtr hWnd);
-        // [DllImport("user32")]
-        // static extern bool IsIconic(IntPtr hWnd);
-        // [DllImport("user32")]
-        // static extern bool OpenIcon(IntPtr hWnd);
-
-        // private static Mutex _mutex = null;
 
         public App()
         {
             IConfigurationRoot configuration = BuildConfiguration();
            ServiceProvider= BuildServiceCollection(configuration);
-            _linkManagerModel = new LinkManagerModel();
+            _linkManagerModel = new LinkManagerModel(ServiceProvider.GetRequiredService<ILinkLocalDbService>(), ServiceProvider.GetRequiredService<ILinkManagerApiServices>());
         }
 
         private  ServiceProvider BuildServiceCollection(IConfigurationRoot configuration)
@@ -70,57 +60,24 @@ namespace LinkManagerClientWPF
             services.AddDbContext<AppDbContext>(opt =>
             opt.UseSqlite(configuration.GetConnectionString("default") ));
             services.AddSingleton<MainWindow>();
-            services.AddSingleton<ILinkServices, LinkServices>();
-            services.AddScoped<ILinkRepository, LinkRepository>();
+            services.AddSingleton<ILinkManagerApiServices, LinkManagerApiServices>();
+            services.AddScoped<ILinkLocalDbService, LinkLocalDbService>();
 
         }
         protected override void OnStartup(StartupEventArgs e)
         {
-            //MainWindow MainWindow = new MainWindow()
-            //{
-            //    DataContext =new MainWindowViewModel(_linkManagerModel)
-            //};
+            MainWindow MainWindow = new MainWindow()
+            {
+                DataContext =new MainWindowViewModel(_linkManagerModel)
+            };
+            MainWindow.Show();
 
-
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            //var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             //mainWindow.DataContext = new MainWindowViewModel(_linkManagerModel);
           
-            mainWindow.Show();
-            // const string appName = "MargiranLinkManager";
-            // bool createdNew;
-
-            // _mutex = new Mutex(true, appName, out createdNew);
-
-            // if (!createdNew)
-            // {
-            //     ActivateOtherWindow();
-            //     //app is already running! Exiting the application  
-            //     Application.Current.Shutdown();
-            // }
-
-
-            // var client= serviceProvider.GetRequiredService<ILinksApi>();
-
-            // var response =  client.SearchUpdateLinks(DateTimeOffset.Parse("19990101"));
-
-            // var responseText= JsonSerializer.Serialize(response,new JsonSerializerOptions{
-            //     WriteIndented = true
-            // });
-
-
+            //mainWindow.Show();
 
             base.OnStartup(e);
-        }
-
-        private static void ActivateOtherWindow()
-        {
-            // var other = FindWindow(null, "Link Manager Client");
-            // if (other != IntPtr.Zero)
-            // {
-            //     SetForegroundWindow(other);
-            //     if (IsIconic(other))
-            //         OpenIcon(other);
-            // }
         }
 
     }

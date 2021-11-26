@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LinkManagerClientWPF.Entities;
 
@@ -30,6 +31,7 @@ public class Link
     public DateTimeOffset UpdateAt { get; set; }
 
     public int Order { get; set; }
+    [ForeignKey("LinkId")]
 
     public LinkVisitCount? LinksVisitCount { get; set; }
 }

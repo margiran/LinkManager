@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace LinkManagerClientWPF.Services
 {
-    public class LinkServices : ILinkServices
+    public class LinkManagerApiServices : ILinkManagerApiServices
     {
         private readonly ILinksApi _linksApi;
 
-        public LinkServices(ILinksApi linksApi)
+        public LinkManagerApiServices(ILinksApi linksApi)
         {
             _linksApi=linksApi;
         }

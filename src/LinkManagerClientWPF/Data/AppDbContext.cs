@@ -22,10 +22,10 @@ public class AppDbContext : DbContext
             .HasOne(p => p.LinksVisitCount)
             .WithOne(p => p.Link)
             .HasForeignKey<LinkVisitCount>(p=>p.LinkId);
-        modelBuilder.Entity<LinkVisitCount>()
-            .HasOne(p => p.Link)
-            .WithOne(p => p.LinksVisitCount)
-            .HasForeignKey<Link>(p => p.Id);
+        //modelBuilder.Entity<LinkVisitCount>()
+        //    .HasOne(p => p.Link)
+        //    .WithOne(p => p.LinksVisitCount)
+        //    .HasForeignKey<Link>(p => p.Id);
         modelBuilder.Entity<Link>()
             .HasQueryFilter(l => !l.IsDelete);
         base.OnModelCreating(modelBuilder);

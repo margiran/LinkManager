@@ -16,9 +16,9 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         ResizeMode="CanMinimize" Icon="{StaticResource ResourceKey=ico }" FontFamily="Tahoma" Title="{Binding WindowTitle}" ShowInTaskbar="True" WindowStyle="None"  >
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <viewModels:MainWindowViewModel />
-    </Window.DataContext>
+    </Window.DataContext>-->
 
     <Window.Resources>
         <Storyboard x:Key="OpenMenu"  >

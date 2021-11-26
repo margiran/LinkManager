@@ -1,25 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LinkManagerClientWPF.Data;
 using LinkManagerClientWPF.Entities;
+using LinkManagerClientWPF.Models;
 
-namespace LinkManagerClientWPF.Data;
+namespace LinkManagerClientWPF.Services;
 
-public class LinkRepository : ILinkRepository
+public class LinkLocalDbService : ILinkLocalDbService
 {
     private readonly AppDbContext _context;
-    public LinkRepository(AppDbContext context)
+    public LinkLocalDbService(AppDbContext context)
     {
         _context = context;
     }
 
     public void AddOrUpdate(List<Link> linksToUpdate)
     {
-            _context.Links.UpdateRange(linksToUpdate);
+        foreach (var link in linksToUpdate)
+        {
+            _context.Links.Update(link);
+            //_context.Links.UpdateRange(linksToUpdate);
             _context.SaveChanges();
+        }
     }
 
-    public IEnumerable<Link> GetAll(bool orderByVisitCount=true, string filter="")
+    public IEnumerable<LinkModel> GetAll(bool orderByVisitCount=true, string filter="")
     {
         IEnumerable<Link> links;
             links= _context.Links;
@@ -35,7 +41,21 @@ public class LinkRepository : ILinkRepository
             {
                 links.OrderBy(l=> l.Order);
             }
-        return links.ToList();
+        return links.Select( m => new LinkModel
+        {
+            Title = m.Title,
+            ShortDescription = m.ShortDescription,
+            Argument = m.Argument,
+            DefaultPassword = m.DefaultPassword,
+            Description = m.Description,
+            FileName = m.FileName,
+            Id = m.Id,  
+            InternetNeeded = m.InternetNeeded,  
+            LinkVisitCount=m.LinksVisitCount.VisitedCount,
+            Order=m.Order,  
+            UserName=m.UserName
+            
+        }).ToList();
     }
 
     public Link GetById(Guid id)
@@ -48,9 +68,14 @@ public class LinkRepository : ILinkRepository
     public string GetLastUpdated()
     {
         string lastUpdate="";
+
+        var links= _context.Links.ToList();
         Link link;
-            link= _context.Links.OrderByDescending(l=> l.UpdateAt).First();
-        if(link!= null)
+            //link= _context.Links.OrderByDescending(l=> l.UpdateAt).First();
+        if (!links.Any())
+            return lastUpdate;
+        link = links.OrderByDescending(l=> l.UpdateAt).First();
+        //if(link!= null)
             lastUpdate= link.UpdateAt.ToString();
         return lastUpdate;
     }

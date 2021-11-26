@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using LinkManagerClientWPF.Entities;
+using LinkManagerClientWPF.Models;
 
-namespace LinkManagerClientWPF.Data;
+namespace LinkManagerClientWPF.Services;
 
-public interface ILinkRepository
+public interface ILinkLocalDbService
 {
-    IEnumerable<Link> GetAll(bool orderByVisitCount=true,string filter="");
+    IEnumerable<LinkModel> GetAll(bool orderByVisitCount=true,string filter="");
 
     Link GetById(Guid id);
 
