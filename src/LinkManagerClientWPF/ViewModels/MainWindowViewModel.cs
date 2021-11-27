@@ -61,13 +61,15 @@ public class MainWindowViewModel : BaseViewModel
     private void UpdateLocalDb()
     {
         _linkManagerModel.UpdateLocalDb();
+        UpdateLinks();
     }
 
     private void UpdateLinks()
     {
         _linksViewModel.Clear();
-        var links = _linkManagerModel.GetLinks(Filter, SortByVisitedCount);
-        foreach (var item in links)
+        
+        var links = _linkManagerModel.GetLinks(Filter);
+        foreach (var item in SortByVisitedCount ? links.OrderByDescending (l=> l.LinkVisitCount) : links)
         {
             _linksViewModel.Add(new LinksViewModel(item));
         }
@@ -118,7 +120,8 @@ public class MainWindowViewModel : BaseViewModel
             var link = _linksViewModel.FirstOrDefault(l => l.Id == id);
             if(link !=null )
             {
-            RunProcess(link);
+                RunProcess(link);
+                _linkManagerModel.AddVisitedCount(id);
             }
         }
 

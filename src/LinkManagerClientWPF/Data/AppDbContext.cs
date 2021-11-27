@@ -8,25 +8,16 @@ namespace LinkManagerClientWPF.Data;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options ): base(options)
-    // public AppDbContext(DbContextOptions options ): base(options)
+    //public AppDbContext(DbContextOptions<AppDbContext> options ): base(options)
+    public AppDbContext(DbContextOptions options) : base(options)
     {
         Database.EnsureCreated();
 
     }
     public DbSet<Link> Links { get; set; }
-    public DbSet<LinkVisitCount> VisitsCount { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
-        modelBuilder.Entity<Link>()
-            .HasOne(p => p.LinksVisitCount)
-            .WithOne(p => p.Link)
-            .HasForeignKey<LinkVisitCount>(p=>p.LinkId);
-        //modelBuilder.Entity<LinkVisitCount>()
-        //    .HasOne(p => p.Link)
-        //    .WithOne(p => p.LinksVisitCount)
-        //    .HasForeignKey<Link>(p => p.Id);
+
         modelBuilder.Entity<Link>()
             .HasQueryFilter(l => !l.IsDelete);
         base.OnModelCreating(modelBuilder);

@@ -10,22 +10,23 @@ namespace LinkManagerClientWPF.Models
 {
     public class LinkManagerModel
     {
-        private readonly ILinkLocalDbService _localDbService;
-        private readonly ILinkManagerApiServices _linkManagerApiService;
 
         private LinkListModel LinkList { get; }
-        public LinkManagerModel(ILinkLocalDbService localDbService, ILinkManagerApiServices linkManagerApiService)
+        public LinkManagerModel(LinkListModel linkListModel)
         {
-            _localDbService = localDbService;
-            _linkManagerApiService = linkManagerApiService;
-            
-            LinkList= new LinkListModel(_localDbService,_linkManagerApiService);
+
+            LinkList = linkListModel;
         }
-        public IEnumerable<LinkModel> GetLinks(string filter = "", bool sortByVisitedCount = true)
+        public IEnumerable<LinkModel> GetLinks(string filter = "")
         {
-           return LinkList.GetLinks(filter,sortByVisitedCount);
+           return LinkList.GetLinks(filter);
         }
 
+
+        public void AddVisitedCount(Guid id)
+        {
+            LinkList.AddVisitedCount(id);
+        }
         public void UpdateLocalDb()
         {
             LinkList.UpdateLocalDb();

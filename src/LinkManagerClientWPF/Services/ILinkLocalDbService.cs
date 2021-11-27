@@ -7,7 +7,7 @@ namespace LinkManagerClientWPF.Services;
 
 public interface ILinkLocalDbService
 {
-    IEnumerable<LinkModel> GetAll(bool orderByVisitCount=true,string filter="");
+    IEnumerable<LinkModel> GetAll(string filter="");
 
     Link GetById(Guid id);
 

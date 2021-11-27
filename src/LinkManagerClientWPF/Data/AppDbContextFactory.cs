@@ -1,14 +1,21 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace LinkManagerClientWPF.Data
 {
     public class AppDbContextFactory
     {
-        // public AppDbContext CreateDbContext(string[] args)
-    // {
-    //     // DbContextOptions options = new DbContextOptionsBuilder()
-    //     //     .UseSqlite("Data Source= LinkBankLocalDB.db").Options;
-    //     // return new AppDbContext(options);
-    // }
+        private readonly string _connectionString;
+
+        public AppDbContextFactory(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        public AppDbContext CreateDbContext( )
+        {
+            DbContextOptions options = new DbContextOptionsBuilder()
+                .UseSqlite(_connectionString).Options;
+            return new AppDbContext(options);
+        }
     }
 }

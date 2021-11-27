@@ -20,12 +20,16 @@ namespace LinkManagerClientWPF
     {
         private ServiceProvider ServiceProvider;
         private readonly LinkManagerModel _linkManagerModel;
-
+        private readonly string CONNECTION_STRING;
         public App()
         {
             IConfigurationRoot configuration = BuildConfiguration();
-           ServiceProvider= BuildServiceCollection(configuration);
-            _linkManagerModel = new LinkManagerModel(ServiceProvider.GetRequiredService<ILinkLocalDbService>(), ServiceProvider.GetRequiredService<ILinkManagerApiServices>());
+            CONNECTION_STRING = configuration.GetConnectionString("default");
+
+        ServiceProvider = BuildServiceCollection(configuration);
+            AppDbContextFactory contextFactory = new AppDbContextFactory(CONNECTION_STRING);
+            var linkListModel = new LinkListModel(new LinkLocalDbService(contextFactory), ServiceProvider.GetRequiredService<ILinkManagerApiServices>());
+            _linkManagerModel = new LinkManagerModel(linkListModel);
         }
 
         private  ServiceProvider BuildServiceCollection(IConfigurationRoot configuration)
@@ -49,11 +53,18 @@ namespace LinkManagerClientWPF
                 .ConfigureHttpClient(httpClient =>{
                     httpClient.BaseAddress=new Uri( configuration["LinkManagerApi:BaseAddress"]);
                 });
-            services.AddDbContext<AppDbContext>(opt =>
-            opt.UseSqlite(configuration.GetConnectionString("default") ));
+            //services.AddDbContext<AppDbContext>(opt =>
+            //opt.UseSqlite(configuration.GetConnectionString("default") ));
+            DbContextOptions options = new DbContextOptionsBuilder().UseSqlite(CONNECTION_STRING).Options;
+            using (AppDbContext dbContext = new AppDbContext(options))
+            {
+               dbContext.Database.EnsureCreated();
+            }
+
+            services.AddSingleton<AppDbContextFactory>();
             services.AddSingleton<MainWindow>();
             services.AddSingleton<ILinkManagerApiServices, LinkManagerApiServices>();
-            services.AddTransient<ILinkLocalDbService, LinkLocalDbService>();
+            services.AddSingleton<ILinkLocalDbService, LinkLocalDbService>();
 
         }
         protected override void OnStartup(StartupEventArgs e)

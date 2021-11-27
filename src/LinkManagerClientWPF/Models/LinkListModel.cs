@@ -13,7 +13,7 @@ namespace LinkManagerClientWPF.Models
     {
 
 
-        private readonly List<LinkModel> Links;
+        //private readonly List<LinkModel> Links;
         private readonly ILinkLocalDbService _localDbService;
         private readonly ILinkManagerApiServices _linkManagerApiService;
 
@@ -21,48 +21,50 @@ namespace LinkManagerClientWPF.Models
         {
             _localDbService=localDbService;
             _linkManagerApiService=linkManagerApiService;
-            Links = new List<LinkModel>();
+            //Links = new List<LinkModel>();
 
-            //Links.Add(new Models.LinkModel { Title = "google", FileName = "chrome", Argument = "google.com", Id = Guid.NewGuid(), Order = 1, ShortDescription = "google" });
-            //Links.Add(new Models.LinkModel { Title = "yahoo", FileName = "chrome", Argument = "yahoo.com", Id = Guid.NewGuid(), Order = 2, ShortDescription = "yahoo" });
+        }
 
+        internal void AddVisitedCount(Guid id)
+        {
+            _localDbService.SetVisited(id);
         }
 
         public void UpdateLocalDb()
         {
             ICollection<LinkSearchResponse> apiUpdateLinks = Task.Run(() => _linkManagerApiService.SearchLinks(new Api.ApiRequest.LinkSearchRequest { UpdateAt = _localDbService.GetLastUpdated() })).Result;
-            //_localDbService.AddOrUpdate(apiUpdateLinks.Select(l =>l.ToLink()).ToList());
-            Links.Clear();  
-            Links.AddRange(apiUpdateLinks.Select(m => new LinkModel
-            {
-                Title = m.Title,
-                ShortDescription = m.ShortDescription,
-                Argument = m.Argument,
-                DefaultPassword = m.DefaultPassword,
-                Description = m.Description,
-                FileName = m.FileName,
-                Id = m.Id,
-                InternetNeeded = m.InternetNeeded,
-                Order = m.Order,
-                UserName = m.UserName
+            _localDbService.AddOrUpdate(apiUpdateLinks.Select(l => l.ToLink()).ToList());
+            //Links.Clear();  
+            //Links.AddRange(apiUpdateLinks.Select(m => new LinkModel
+            //{
+            //    Title = m.Title,
+            //    ShortDescription = m.ShortDescription,
+            //    Argument = m.Argument,
+            //    DefaultPassword = m.DefaultPassword,
+            //    Description = m.Description,
+            //    FileName = m.FileName,
+            //    Id = m.Id,
+            //    InternetNeeded = m.InternetNeeded,
+            //    Order = m.Order,
+            //    UserName = m.UserName
 
-            }).ToList());
+            //}).ToList());
         }
 
-        public IEnumerable<LinkModel> GetLinks(string filter="", bool sortByVisitedCount = true)
+        public IEnumerable<LinkModel> GetLinks(string filter="")
         {
 
-            //return _localDbService.GetAll(sortByVisitedCount, filter);
-            IEnumerable<LinkModel> links;
+            return _localDbService.GetAll(filter);
+            //IEnumerable<LinkModel> links;
 
-            if (string.IsNullOrEmpty(filter))
-                links = Links;
-            else
-                links = Links.Where(l => l.Argument.Contains(filter) || l.ShortDescription.Contains(filter));
+            //if (string.IsNullOrEmpty(filter))
+            //    links = Links;
+            //else
+            //    links = Links.Where(l => l.Argument.Contains(filter) || l.ShortDescription.Contains(filter));
 
-            if (sortByVisitedCount)
-                return links.OrderByDescending(l => l.LinkVisitCount);
-            return links.OrderBy(l => l.Order);
+            //if (sortByVisitedCount)
+            //    return links.OrderByDescending(l => l.LinkVisitCount);
+            //return links.OrderBy(l => l.Order);
         }
     }
 }

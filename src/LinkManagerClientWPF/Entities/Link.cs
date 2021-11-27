@@ -31,7 +31,6 @@ public class Link
     public DateTimeOffset UpdateAt { get; set; }
 
     public int Order { get; set; }
-    [ForeignKey("LinkId")]
 
-    public LinkVisitCount? LinksVisitCount { get; set; }
+    public int VisitedCount { get; set; }=0;
 }

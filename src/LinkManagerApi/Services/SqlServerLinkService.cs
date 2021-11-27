@@ -41,7 +41,7 @@ namespace LinkManagerApi.Services
             {
                 DateTimeOffset UpdateAt;
                 if (DateTimeOffset.TryParse(updateAt, out UpdateAt))
-                    return await links.Where(l => l.UpdateAt >= UpdateAt).ToListAsync();
+                    return await links.Where(l => l.UpdateAt > UpdateAt).ToListAsync();
             }
             return await links.ToListAsync();
         }
