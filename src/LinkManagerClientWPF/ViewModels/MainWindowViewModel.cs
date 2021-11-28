@@ -20,9 +20,6 @@ public class MainWindowViewModel : BaseViewModel
     // private readonly LinkRepository _repository;
     public override string WindowTitle => "WPF Sample Project";
 
-
-    #region commands
-
     public Command<Guid> OpenLinkCommand { get; set; }
     public Command<Guid> SelectALinkCommand { get; set; }
     public Command UpdateLocalDatabaseCommand { get; set; }
@@ -34,10 +31,6 @@ public class MainWindowViewModel : BaseViewModel
     public Command CloseMenuCommand { get; set; }
     public Command UpdateLinksCommand { get; set; }
 
-
-    #endregion
-
-    #region constructor
 
     public MainWindowViewModel(LinkManagerModel linkManagerModel)
     {
@@ -112,9 +105,6 @@ public class MainWindowViewModel : BaseViewModel
 
     }
 
-    #endregion
-
-    #region methods
     private void OpenLink(Guid id )
         {
             var link = _linksViewModel.FirstOrDefault(l => l.Id == id);
@@ -178,11 +168,6 @@ public class MainWindowViewModel : BaseViewModel
         OpenMenuVisibility = true;
         CloseMenuVisibility = false;
     }
-
- 
-
-    #endregion
-    #region Property
 
     private LinksViewModel _selectedLink;
 
@@ -251,7 +236,5 @@ public class MainWindowViewModel : BaseViewModel
             UpdateLinks();
         }
     }
-
-    #endregion
 
 }

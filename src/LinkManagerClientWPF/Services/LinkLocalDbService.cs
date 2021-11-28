@@ -73,11 +73,8 @@ public class LinkLocalDbService : ILinkLocalDbService
     public Link GetById(Guid id)
     {
 
-        Link? link;
+        return _context.Links.FirstOrDefault(l => l.Id == id);
 
-            link = _context.Links.FirstOrDefault(l => l.Id == id);
-
-        return link;
     }
 
     public string GetLastUpdated()
