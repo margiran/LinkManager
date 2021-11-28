@@ -11,11 +11,11 @@ namespace LinkManagerClientWPF.Data
         {
             _connectionString = connectionString;
         }
-        public AppDbContext CreateDbContext( )
-        {
-            DbContextOptions options = new DbContextOptionsBuilder()
-                .UseSqlite(_connectionString).Options;
-            return new AppDbContext(options);
-        }
+        //public AppDbContext CreateDbContext( )
+        //{
+        //    DbContextOptions options = new DbContextOptionsBuilder()
+        //        .UseSqlite(_connectionString).Options;
+        //    return new AppDbContext(options);
+        //}
     }
 }

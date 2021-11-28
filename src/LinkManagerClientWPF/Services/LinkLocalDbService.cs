@@ -4,46 +4,43 @@ using System.Linq;
 using LinkManagerClientWPF.Data;
 using LinkManagerClientWPF.Entities;
 using LinkManagerClientWPF.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LinkManagerClientWPF.Services;
 
 public class LinkLocalDbService : ILinkLocalDbService
 {
-    private readonly AppDbContextFactory _contextFactory;
-    public LinkLocalDbService(AppDbContextFactory contextFactory)
+    private readonly AppDbContext _context;
+    public LinkLocalDbService(AppDbContext context)
     {
-        _contextFactory = contextFactory;
+        _context = context;
     }
 
     public void AddOrUpdate(List<Link> linksToUpdate)
     {
-        using (var _context = _contextFactory.CreateDbContext())
-        {
+        _context.ChangeTracker.Clear();
+
+        List<Link> ToUpdate = new();
             foreach (var link in linksToUpdate)
             {
-                if (LinkExist(link.Id))
-                    _context.Links.Update(link);
-                else
-                    _context.Links.Add(link);
+            if (LinkExist(link.Id))
+            {
+                _context.Links.Update(link);
+            }
+            else
+                _context.Links.Add(link);
             }
             _context.SaveChanges();
 
-        }
     }
-
-    private bool LinkExist(Guid id)
+    private  bool LinkExist(Guid id)
     {
-        using (var _context = _contextFactory.CreateDbContext())
-        {
            return _context.Links.Any(l => l.Id == id);
-        }
 
         }
         public IEnumerable<LinkModel> GetAll(string filter = "")
     {
         IEnumerable<Link> links;
-        using (var _context = _contextFactory.CreateDbContext())
-        {
 
             //links = _context.Links;
 
@@ -71,28 +68,22 @@ public class LinkLocalDbService : ILinkLocalDbService
                 UserName = m.UserName??""
 
             }).OrderBy(l => l.Order).ToList();
-        }
     }
 
     public Link GetById(Guid id)
     {
 
         Link? link;
-        using (var _context = _contextFactory.CreateDbContext())
-        {
 
             link = _context.Links.FirstOrDefault(l => l.Id == id);
 
-        }
         return link;
     }
 
     public string GetLastUpdated()
     {
         string lastUpdate="";
-        using (var _context = _contextFactory.CreateDbContext())
-        {
-
+ 
             var links = _context.Links.ToList();
             Link link;
             //link= _context.Links.OrderByDescending(l=> l.UpdateAt).First();
@@ -102,12 +93,10 @@ public class LinkLocalDbService : ILinkLocalDbService
             //if(link!= null)
             lastUpdate = link.UpdateAt.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffff'Z'");
             return lastUpdate;
-        }
+        
     }
     public void SetVisited(Guid id)
     {
-        using (var _context = _contextFactory.CreateDbContext())
-        {
 
             var existing = _context.Links.FirstOrDefault(v=> v.Id== id);
             if (existing != null)
@@ -118,5 +107,4 @@ public class LinkLocalDbService : ILinkLocalDbService
             }
             _context.SaveChanges();
         }
-    }
 }
