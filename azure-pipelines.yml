@@ -27,6 +27,13 @@ stages:
         performMultiLevelLookup: true
     - script: dotnet test tests/LinkManagerApi.UnitTests/LinkManagerApi.UnitTests.csproj --logger trx  
       displayName: Run unit tests  
+    - task: UseDotNet@2
+      displayName: 'Install .NET Core SDK'
+      inputs:
+        version: 6.0.x
+        performMultiLevelLookup: true
+    - script: dotnet test tests/LinkManagerApi.IntegrationTests/LinkManagerApi.IntegrationTests.csproj --logger trx  
+      displayName: Run integration tests  
     - task: PublishTestResults@2  
       condition: succeededOrFailed()  
       inputs:  
