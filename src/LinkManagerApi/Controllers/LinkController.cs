@@ -1,3 +1,4 @@
+using System.Threading;
 using System;
 using System.Threading.Tasks;
 using LinkManagerApi.Commands;
@@ -21,10 +22,10 @@ public class LinkController : ControllerBase
 
     [Route(ApiRoutes.Links.GetAll)]
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery(Name = "updateAfter")] string updateAfter)
+    public async Task<IActionResult> GetAll([FromQuery(Name = "updateAfter")] string updateAfter,CancellationToken cancellationToken)
     {
         var query = new GetAllLinksQuery(updateAfter);
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(query,cancellationToken);
         return Ok(result);
     }
 

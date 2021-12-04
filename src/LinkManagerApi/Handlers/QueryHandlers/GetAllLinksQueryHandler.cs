@@ -21,7 +21,8 @@ public class GetAllLinksQueryHandler : IRequestHandler<GetAllLinksQuery, IEnumer
     }
     public async Task<IEnumerable<LinkResponseDto>> Handle(GetAllLinksQuery request, CancellationToken cancellationToken)
     {
-        var links = await _linkService.GetAll(request.UpdateAt);
+
+        var links = await _linkService.GetAll(request.UpdateAt,cancellationToken);
         return _mapper.Map<IEnumerable<LinkResponseDto>>(links);
     }
 }

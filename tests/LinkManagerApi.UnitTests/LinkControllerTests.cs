@@ -32,7 +32,7 @@ public class LinkControllerTests
         mediatorStub.Setup(m => m.Send(It.IsAny<GetAllLinksQuery>(), CancellationToken.None)).ReturnsAsync(expected);
 
         var sut = new LinkController(mediatorStub.Object);
-        var result = await sut.GetAll("");
+        var result = await sut.GetAll("",CancellationToken.None);
 
         var objectResult = Assert.IsType<OkObjectResult>(result);
         var model = Assert.IsAssignableFrom<IEnumerable<LinkResponseDto>>(objectResult.Value);

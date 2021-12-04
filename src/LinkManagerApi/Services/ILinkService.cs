@@ -1,3 +1,4 @@
+using System.Threading;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace LinkManagerApi.Services
 {
     public interface ILinkService
     {
-        Task<IEnumerable<Link>> GetAll(string updateAt);
+        Task<IEnumerable<Link>> GetAll(string updateAt, CancellationToken cancellationToken);
         Task<IEnumerable<Link>> GetUpdatedAfter(DateTimeOffset updateAt);
 
         Task<Link> GetById(Guid id);

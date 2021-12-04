@@ -40,7 +40,7 @@ stages:
         testRunner: VSTest  
         testResultsFiles: '**/*.trx'  
     - task: Docker@2
-      inputs:
+      inputs:    
         containerRegistry: 'margiran Docker Hub'
         repository: 'margiran/linkmanagerapi'
         command: 'buildAndPush'
