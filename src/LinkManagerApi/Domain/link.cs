@@ -17,7 +17,6 @@ public class Link
     [MaxLength(300)]
     public string Title { get; set; }
 
-    [Required]
     [MaxLength(500)]
     public string Argument { get; set; }
 
