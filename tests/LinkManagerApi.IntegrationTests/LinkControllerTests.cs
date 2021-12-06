@@ -26,7 +26,8 @@ namespace LinkManagerApi.IntegrationTests
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var content =await response.Content.ReadFromJsonAsync<List<LinkResponseDto>>() ;
-            content.Should().BeEmpty();
+            // content.Should().BeEmpty();
+            content.Count.Should().Be(3);
         }
 
         [Fact]
