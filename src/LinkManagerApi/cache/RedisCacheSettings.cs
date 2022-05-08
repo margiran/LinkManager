@@ -1,4 +1,4 @@
-namespace LinkManagerApi.SetupServices
+namespace LinkManagerApi.cache
 {
     public class RedisCacheSettings
     {

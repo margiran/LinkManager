@@ -1,3 +1,4 @@
+using LinkManagerApi.cache;
 using LinkManagerApi.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
