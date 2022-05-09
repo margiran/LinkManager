@@ -1,5 +1,7 @@
+using LinkManagerApi.Behaviors;
 using LinkManagerApi.cache;
 using LinkManagerApi.Services;
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,8 @@ namespace LinkManagerApi.SetupServices
             {
                 return;
             }
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
 
             services.AddStackExchangeRedisCache(options=> options.Configuration=redisCacheSettings.ConnectionString);
             services.AddSingleton<IResponseCacheService,ResponseCacheService>();

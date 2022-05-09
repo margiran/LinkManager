@@ -24,7 +24,6 @@ public class MvcInstaller : IServiceInstallers
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "LinkManagerApi", Version = "v1" });
         });
         services.AddMediatR(typeof(Startup));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         services.AddApiVersioning(cfg =>
         {
             cfg.DefaultApiVersion = new ApiVersion(1, 0);
